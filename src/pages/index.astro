@@ -1,46 +1,110 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PostCard from '../components/blog/PostCard.astro';
+import PinnedCard from '../components/home/PinnedCard.astro';
+import RecentCard from '../components/home/RecentCard.astro';
 import { sortByDate } from '../utils/collection';
 
 const allPosts = await getCollection('posts', ({ data }) => !data.draft);
-const recentPosts = sortByDate(allPosts).slice(0, 3);
+const sorted = sortByDate(allPosts);
+const pinnedPosts = sorted.filter((p) => p.data.pinned);
+const recentPosts = sorted.filter((p) => !p.data.pinned).slice(0, 3);
 ---
 
-<BaseLayout title="Home" description="개인 홈페이지">
-  <section class="mb-16">
-    <h1 class="mb-4 text-4xl font-bold">안녕하세요, Geon입니다.</h1>
-    <p class="text-lg text-gray-500">개발자입니다. 블로그와 이력서를 확인해보세요.</p>
-    <div class="mt-6 flex gap-4">
+<BaseLayout title="Home" description="gw-lim · Backend Developer">
+  {/* HERO */}
+  <section class="fade-in pb-16 pt-[72px]">
+    <div class="mb-2">
+      <span
+        class="text-ink-faint inline-block whitespace-nowrap rounded-[4px] border border-[var(--border)] px-[9px] py-[2px] font-mono text-[12px] font-medium tracking-[0.04em]"
+      >
+        Software Engineer
+      </span>
+    </div>
+    <h1
+      class="text-ink mb-4 font-extrabold leading-[1.2] tracking-[-0.03em]"
+      style="font-size: clamp(32px, 5vw, 46px);"
+    >
+      안녕하세요,<br />gw-lim입니다.
+    </h1>
+    <div class="flex gap-2.5">
       <a
         href="/blog"
-        class="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700"
+        class="hero-btn-primary bg-ink inline-flex items-center rounded-[7px] border-[1.5px] border-transparent px-5 py-[9px] text-[14px] font-semibold text-white no-underline transition-all duration-150"
       >
         블로그 보기
       </a>
       <a
         href="/resume"
-        class="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50"
+        class="hero-btn-secondary text-ink-muted inline-flex items-center rounded-[7px] border-[1.5px] border-[var(--border)] bg-transparent px-5 py-[9px] text-[14px] font-semibold no-underline transition-all duration-150"
       >
         이력서 보기
       </a>
     </div>
   </section>
 
+  <div class="h-px bg-[var(--border)]"></div>
+
+  {/* 눈여겨볼 글 */}
+  {
+    pinnedPosts.length > 0 && (
+      <>
+        <section class="fade-in pt-[52px]">
+          <div class="mb-6 flex items-baseline justify-between">
+            <h2 class="text-ink whitespace-nowrap text-[19px] font-bold tracking-[-0.02em]">
+              눈여겨볼 글
+            </h2>
+          </div>
+          <div class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4 pb-[52px]">
+            {pinnedPosts.map((post) => (
+              <PinnedCard post={post} />
+            ))}
+          </div>
+        </section>
+        <div class="h-px bg-[var(--border)]" />
+      </>
+    )
+  }
+
+  {/* 최근 포스트 */}
   {
     recentPosts.length > 0 && (
-      <section>
-        <div class="mb-6 flex items-center justify-between">
-          <h2 class="text-2xl font-semibold">최근 포스트</h2>
-          <a href="/blog" class="text-sm text-blue-600 hover:underline">
+      <section class="fade-in pt-[52px]">
+        <div class="mb-6 flex items-baseline justify-between">
+          <h2 class="text-ink whitespace-nowrap text-[19px] font-bold tracking-[-0.02em]">
+            최근 포스트
+          </h2>
+          <a
+            href="/blog"
+            class="section-link text-ink-faint text-[13px] font-medium no-underline transition-colors duration-150"
+          >
             전체 보기 →
           </a>
         </div>
-        {recentPosts.map((post) => (
-          <PostCard post={post} />
-        ))}
+        <div class="pb-[52px]">
+          {recentPosts.map((post, i) => (
+            <RecentCard post={post} last={i === recentPosts.length - 1} />
+          ))}
+        </div>
       </section>
     )
   }
 </BaseLayout>
+
+<style>
+  .hero-btn-primary:hover {
+    background: #222;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  }
+  .hero-btn-secondary:hover {
+    color: var(--ink);
+    border-color: var(--border-strong);
+    transform: translateY(-1px);
+  }
+  .section-link:hover {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

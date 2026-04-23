@@ -1,0 +1,43 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #ffffff;
+  --bg-subtle: #f9f9f9;
+  --bg-hover: #f4f4f4;
+  --ink: #111111;
+  --ink-muted: #555555;
+  --ink-faint: #999999;
+  --border: #e8e8e8;
+  --border-strong: #cccccc;
+  --tag-bg: #f0f0f0;
+  --tag-text: #444444;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family:
+    'Pretendard',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

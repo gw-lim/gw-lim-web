@@ -1,4 +1,8 @@
 ---
+import '../styles/global.css';
+import GitHubIcon from '../components/icons/GitHubIcon.astro';
+import LinkedInIcon from '../components/icons/LinkedInIcon.astro';
+
 interface Props {
   title: string;
   description?: string;
@@ -7,6 +11,9 @@ interface Props {
 
 const { title, description = '개인 홈페이지', ogImage } = Astro.props;
 const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astro.url;
+
+const githubUrl = 'https://github.com/gw-lim';
+const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a994972a3/';
 ---
 
 <!doctype html>
@@ -16,7 +23,7 @@ const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astr
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
-    <title>{title} | Geon</title>
+    <title>{title} | gw-lim</title>
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
@@ -30,23 +37,93 @@ const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astr
     />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   </head>
-  <body class="min-h-screen bg-white text-gray-900 antialiased">
-    <header class="sticky top-0 z-10 border-b border-gray-200 bg-white">
-      <nav class="mx-auto flex max-w-4xl items-center justify-between px-4 py-4">
-        <a href="/" class="text-xl font-bold hover:text-gray-600">Geon</a>
-        <ul class="flex gap-6 text-sm font-medium">
-          <li><a href="/blog" class="hover:text-gray-600">Blog</a></li>
-          <li><a href="/resume" class="hover:text-gray-600">Resume</a></li>
-        </ul>
+  <body class="flex min-h-screen flex-col antialiased">
+    <header
+      class="sticky top-0 z-50 border-b border-[var(--border)] bg-white/90 backdrop-blur-[10px]"
+    >
+      <nav
+        class="mx-auto flex h-14 max-w-content items-center justify-between px-6"
+      >
+        <a
+          href="/"
+          class="whitespace-nowrap font-mono text-[17px] font-bold tracking-[-0.02em] text-ink no-underline"
+        >
+          gw-lim
+        </a>
+        <div class="flex items-center gap-6">
+          <a
+            href="/blog"
+            class="text-[14px] font-medium text-ink-muted transition-colors duration-150 hover:text-ink"
+            >Blog</a
+          >
+          <a
+            href="/resume"
+            class="text-[14px] font-medium text-ink-muted transition-colors duration-150 hover:text-ink"
+            >Resume</a
+          >
+          <span class="h-4 w-px bg-[var(--border-strong)]" aria-hidden="true"></span>
+          <a
+            href={githubUrl}
+            target="_blank"
+            rel="noopener"
+            class="flex items-center text-ink-faint transition-colors duration-150 hover:text-ink"
+            aria-label="GitHub"
+          >
+            <GitHubIcon />
+          </a>
+          <a
+            href={linkedinUrl}
+            target="_blank"
+            rel="noopener"
+            class="flex items-center text-ink-faint transition-colors duration-150 hover:text-ink"
+            aria-label="LinkedIn"
+          >
+            <LinkedInIcon />
+          </a>
+        </div>
       </nav>
     </header>
-    <main class="mx-auto max-w-4xl px-4 py-10">
+    <main class="mx-auto w-full max-w-content flex-1 px-6">
       <slot />
     </main>
-    <footer class="mt-20 border-t border-gray-200">
-      <div class="mx-auto max-w-4xl px-4 py-8 text-center text-sm text-gray-400">
-        © {new Date().getFullYear()} Geon. All rights reserved.
+    <footer class="border-t border-[var(--border)]">
+      <div
+        class="mx-auto flex max-w-content flex-wrap items-center justify-between gap-3 px-6 py-7"
+      >
+        <span class="text-[13px] text-ink-faint">
+          © {new Date().getFullYear()} gw-lim. All rights reserved.
+        </span>
+        <div class="flex items-center gap-4">
+          <a
+            href={githubUrl}
+            target="_blank"
+            rel="noopener"
+            class="flex items-center gap-1.5 text-[12px] text-ink-faint no-underline transition-colors duration-150 hover:text-ink"
+          >
+            <GitHubIcon /> GitHub
+          </a>
+          <a
+            href={linkedinUrl}
+            target="_blank"
+            rel="noopener"
+            class="flex items-center gap-1.5 text-[12px] text-ink-faint no-underline transition-colors duration-150 hover:text-ink"
+          >
+            <LinkedInIcon /> LinkedIn
+          </a>
+        </div>
       </div>
     </footer>
+
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+          });
+        },
+        { threshold: 0.08 },
+      );
+      document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+    </script>
   </body>
 </html>
