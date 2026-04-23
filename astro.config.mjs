@@ -7,7 +7,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
 export default defineConfig({
-  site: 'https://gw-lim.github.io',
+  site: 'https://gw-lim.com',
   output: 'static',
   markdown: {
     shikiConfig: {
