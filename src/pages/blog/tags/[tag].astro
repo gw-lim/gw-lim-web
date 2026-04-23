@@ -20,7 +20,10 @@ const { tag } = Astro.params;
 const { posts } = Astro.props;
 ---
 
-<BaseLayout title={`#${tag}`}>
+<BaseLayout
+  title={`#${tag}`}
+  description={`'${tag}' 태그가 달린 포스트 ${posts.length}개를 모았습니다.`}
+>
   <div class="mb-2 flex items-center gap-2">
     <a href="/blog" class="text-sm text-gray-400 hover:text-gray-600">← Blog</a>
   </div>

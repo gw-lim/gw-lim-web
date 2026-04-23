@@ -15,7 +15,7 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
   [...items].sort((a, b) => b.data.id - a.data.id);
 ---
 
-<BaseLayout title="Resume">
+<BaseLayout title="Resume" description="Software Engineer gw-lim의 이력서입니다.">
   <h1 class="mb-12 text-3xl font-bold">Resume</h1>
 
   <section class="mb-14">

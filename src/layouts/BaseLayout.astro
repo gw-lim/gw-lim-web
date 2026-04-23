@@ -4,13 +4,19 @@ import GitHubIcon from '../components/icons/GitHubIcon.astro';
 import LinkedInIcon from '../components/icons/LinkedInIcon.astro';
 
 interface Props {
-  title: string;
+  title?: string;
   description?: string;
   ogImage?: string;
 }
 
-const { title, description = '개인 홈페이지', ogImage } = Astro.props;
+const {
+  title,
+  description = 'Software Engineer gw-lim의 개발 블로그입니다.',
+  ogImage,
+} = Astro.props;
 const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astro.url;
+const pageTitle = title ? `${title} | gw-lim` : 'gw-lim';
+const ogTitle = title ?? 'gw-lim';
 
 const githubUrl = 'https://github.com/gw-lim';
 const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a994972a3/';
@@ -23,10 +29,10 @@ const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a9
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
-    <title>{title} | gw-lim</title>
+    <title>{pageTitle}</title>
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={description} />
     {ogImage && Astro.site && <meta property="og:image" content={new URL(ogImage, Astro.site)} />}
     <link
@@ -41,24 +47,22 @@ const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a9
     <header
       class="sticky top-0 z-50 border-b border-[var(--border)] bg-white/90 backdrop-blur-[10px]"
     >
-      <nav
-        class="mx-auto flex h-14 max-w-content items-center justify-between px-6"
-      >
+      <nav class="max-w-content mx-auto flex h-14 items-center justify-between px-6">
         <a
           href="/"
-          class="whitespace-nowrap font-mono text-[17px] font-bold tracking-[-0.02em] text-ink no-underline"
+          class="text-ink whitespace-nowrap font-mono text-[17px] font-bold tracking-[-0.02em] no-underline"
         >
           gw-lim
         </a>
         <div class="flex items-center gap-6">
           <a
             href="/blog"
-            class="text-[14px] font-medium text-ink-muted transition-colors duration-150 hover:text-ink"
+            class="text-ink-muted hover:text-ink text-[14px] font-medium transition-colors duration-150"
             >Blog</a
           >
           <a
             href="/resume"
-            class="text-[14px] font-medium text-ink-muted transition-colors duration-150 hover:text-ink"
+            class="text-ink-muted hover:text-ink text-[14px] font-medium transition-colors duration-150"
             >Resume</a
           >
           <span class="h-4 w-px bg-[var(--border-strong)]" aria-hidden="true"></span>
@@ -66,7 +70,7 @@ const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a9
             href={githubUrl}
             target="_blank"
             rel="noopener"
-            class="flex items-center text-ink-faint transition-colors duration-150 hover:text-ink"
+            class="text-ink-faint hover:text-ink flex items-center transition-colors duration-150"
             aria-label="GitHub"
           >
             <GitHubIcon />
@@ -75,7 +79,7 @@ const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a9
             href={linkedinUrl}
             target="_blank"
             rel="noopener"
-            class="flex items-center text-ink-faint transition-colors duration-150 hover:text-ink"
+            class="text-ink-faint hover:text-ink flex items-center transition-colors duration-150"
             aria-label="LinkedIn"
           >
             <LinkedInIcon />
@@ -83,14 +87,14 @@ const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a9
         </div>
       </nav>
     </header>
-    <main class="mx-auto w-full max-w-content flex-1 px-6">
+    <main class="max-w-content mx-auto w-full flex-1 px-6">
       <slot />
     </main>
     <footer class="border-t border-[var(--border)]">
       <div
-        class="mx-auto flex max-w-content flex-wrap items-center justify-between gap-3 px-6 py-7"
+        class="max-w-content mx-auto flex flex-wrap items-center justify-between gap-3 px-6 py-7"
       >
-        <span class="text-[13px] text-ink-faint">
+        <span class="text-ink-faint text-[13px]">
           © {new Date().getFullYear()} gw-lim. All rights reserved.
         </span>
         <div class="flex items-center gap-4">
@@ -98,7 +102,7 @@ const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a9
             href={githubUrl}
             target="_blank"
             rel="noopener"
-            class="flex items-center gap-1.5 text-[12px] text-ink-faint no-underline transition-colors duration-150 hover:text-ink"
+            class="text-ink-faint hover:text-ink flex items-center gap-1.5 text-[12px] no-underline transition-colors duration-150"
           >
             <GitHubIcon /> GitHub
           </a>
@@ -106,7 +110,7 @@ const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a9
             href={linkedinUrl}
             target="_blank"
             rel="noopener"
-            class="flex items-center gap-1.5 text-[12px] text-ink-faint no-underline transition-colors duration-150 hover:text-ink"
+            class="text-ink-faint hover:text-ink flex items-center gap-1.5 text-[12px] no-underline transition-colors duration-150"
           >
             <LinkedInIcon /> LinkedIn
           </a>
