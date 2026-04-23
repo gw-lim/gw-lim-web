@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/blog/PostCard.astro';
+import { sortByDate } from '../../utils/collection';
+
+const allPosts = await getCollection('posts', ({ data }) => !data.draft);
+const sorted = sortByDate(allPosts);
+const pinned = sorted.filter((p) => p.data.pinned);
+const rest = sorted.filter((p) => !p.data.pinned);
+const posts = [...pinned, ...rest];
+---
+
+<BaseLayout title="Blog">
+  <div class="mb-8 flex items-center justify-between">
+    <h1 class="text-3xl font-bold">Blog</h1>
+    <a href="/blog/series" class="text-sm text-blue-600 hover:underline"> 시리즈 보기 → </a>
+  </div>
+  {posts.map((post) => <PostCard post={post} />)}
+  {posts.length === 0 && <p class="text-gray-400">아직 포스트가 없습니다.</p>}
+</BaseLayout>

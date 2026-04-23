@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate } from '../../utils/date';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+---
+
+<article class="relative border-b border-gray-100 py-6">
+  <div class="mb-2 flex flex-wrap gap-2">
+    {
+      post.data.tags.map((tag) => (
+        <a
+          href={`/blog/tags/${encodeURIComponent(tag)}`}
+          class="relative z-10 rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-500 hover:bg-gray-200"
+        >
+          #{tag}
+        </a>
+      ))
+    }
+  </div>
+  <h2 class="mb-1 text-xl font-semibold">
+    {
+      post.data.pinned && (
+        <span class="mr-1 text-blue-500" aria-label="고정됨">
+          📌
+        </span>
+      )
+    }
+    <a href={`/blog/${post.id}`} class="after:absolute after:inset-0 hover:text-blue-600">
+      {post.data.title}
+    </a>
+  </h2>
+  <p class="mb-2 text-sm text-gray-500">{post.data.description}</p>
+  <time datetime={post.data.createdAt} class="text-xs text-gray-400">
+    {formatDate(post.data.createdAt)}
+  </time>
+</article>

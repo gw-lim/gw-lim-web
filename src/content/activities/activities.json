@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "role": "오픈소스 기여자",
+    "organizationName": "Sample OSS Project",
+    "startedAt": "2023-06",
+    "endedAt": "2023-12",
+    "body": [
+      {
+        "heading": "기여 내용",
+        "description": null,
+        "lists": [
+          "버그 수정 PR 제출",
+          "문서 개선"
+        ]
+      }
+    ]
+  }
+]

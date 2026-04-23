@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CareerItem from '../../components/resume/CareerItem.astro';
+import ActivityItem from '../../components/resume/ActivityItem.astro';
+import EducationItem from '../../components/resume/EducationItem.astro';
+import CertItem from '../../components/resume/CertItem.astro';
+
+const careers = await getCollection('careers');
+const activities = await getCollection('activities');
+const education = await getCollection('education');
+const certifications = await getCollection('certifications');
+
+const sortById = <T extends { data: { id: number } }>(items: T[]) =>
+  [...items].sort((a, b) => b.data.id - a.data.id);
+---
+
+<BaseLayout title="Resume">
+  <h1 class="mb-12 text-3xl font-bold">Resume</h1>
+
+  <section class="mb-14">
+    <h2 class="mb-6 border-b border-gray-200 pb-2 text-2xl font-semibold">경력</h2>
+    <div class="space-y-10">
+      {sortById(careers).map((item) => <CareerItem item={item} />)}
+    </div>
+  </section>
+
+  <section class="mb-14">
+    <h2 class="mb-6 border-b border-gray-200 pb-2 text-2xl font-semibold">활동</h2>
+    <div class="space-y-10">
+      {sortById(activities).map((item) => <ActivityItem item={item} />)}
+    </div>
+  </section>
+
+  <section class="mb-14">
+    <h2 class="mb-6 border-b border-gray-200 pb-2 text-2xl font-semibold">학력</h2>
+    <div class="space-y-6">
+      {sortById(education).map((item) => <EducationItem item={item} />)}
+    </div>
+  </section>
+
+  <section class="mb-14">
+    <h2 class="mb-6 border-b border-gray-200 pb-2 text-2xl font-semibold">자격증</h2>
+    <div class="space-y-4">
+      {sortById(certifications).map((item) => <CertItem item={item} />)}
+    </div>
+  </section>
+</BaseLayout>

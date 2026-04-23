@@ -1,0 +1,52 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const { title, description = '개인 홈페이지', ogImage } = Astro.props;
+const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astro.url;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <title>{title} | Geon</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {ogImage && Astro.site && <meta property="og:image" content={new URL(ogImage, Astro.site)} />}
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css"
+      integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP"
+      crossorigin="anonymous"
+    />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  </head>
+  <body class="min-h-screen bg-white text-gray-900 antialiased">
+    <header class="sticky top-0 z-10 border-b border-gray-200 bg-white">
+      <nav class="mx-auto flex max-w-4xl items-center justify-between px-4 py-4">
+        <a href="/" class="text-xl font-bold hover:text-gray-600">Geon</a>
+        <ul class="flex gap-6 text-sm font-medium">
+          <li><a href="/blog" class="hover:text-gray-600">Blog</a></li>
+          <li><a href="/resume" class="hover:text-gray-600">Resume</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main class="mx-auto max-w-4xl px-4 py-10">
+      <slot />
+    </main>
+    <footer class="mt-20 border-t border-gray-200">
+      <div class="mx-auto max-w-4xl px-4 py-8 text-center text-sm text-gray-400">
+        © {new Date().getFullYear()} Geon. All rights reserved.
+      </div>
+    </footer>
+  </body>
+</html>

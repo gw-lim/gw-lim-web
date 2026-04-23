@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "role": "Frontend Developer",
+    "organizationName": "Sample Company",
+    "startedAt": "2023-01",
+    "endedAt": null,
+    "body": [
+      {
+        "heading": "주요 업무",
+        "description": null,
+        "lists": [
+          "React 기반 웹 애플리케이션 개발",
+          "TypeScript 도입 및 타입 시스템 개선",
+          "성능 최적화 작업"
+        ]
+      }
+    ]
+  }
+]

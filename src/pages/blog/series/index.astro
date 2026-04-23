@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import SeriesCard from '../../../components/blog/SeriesCard.astro';
+
+const series = await getCollection('series');
+const posts = await getCollection('posts', ({ data }) => !data.draft);
+
+const seriesWithCount = series.map((s) => ({
+  series: s,
+  postCount: posts.filter((p) => p.data.seriesId === s.data.id).length,
+}));
+---
+
+<BaseLayout title="시리즈">
+  <div class="mb-2">
+    <a href="/blog" class="text-sm text-gray-400 hover:text-gray-600">← Blog</a>
+  </div>
+  <h1 class="mb-8 text-3xl font-bold">시리즈</h1>
+  <div class="grid gap-4">
+    {
+      seriesWithCount.map(({ series, postCount }) => (
+        <SeriesCard series={series} postCount={postCount} />
+      ))
+    }
+  </div>
+  {seriesWithCount.length === 0 && <p class="text-gray-400">아직 시리즈가 없습니다.</p>}
+</BaseLayout>

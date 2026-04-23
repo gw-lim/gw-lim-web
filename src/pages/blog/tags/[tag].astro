@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostCard from '../../../components/blog/PostCard.astro';
+import { sortByDate, getAllTags } from '../../../utils/collection';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  const allTags = getAllTags(posts);
+
+  return allTags.map((tag) => ({
+    params: { tag },
+    props: {
+      posts: sortByDate(posts.filter((p) => p.data.tags.includes(tag))),
+    },
+  }));
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+
+<BaseLayout title={`#${tag}`}>
+  <div class="mb-2 flex items-center gap-2">
+    <a href="/blog" class="text-sm text-gray-400 hover:text-gray-600">← Blog</a>
+  </div>
+  <h1 class="mb-2 text-3xl font-bold">#{tag}</h1>
+  <p class="mb-8 text-sm text-gray-400">{posts.length}개의 포스트</p>
+  {posts.map((post) => <PostCard post={post} />)}
+</BaseLayout>
