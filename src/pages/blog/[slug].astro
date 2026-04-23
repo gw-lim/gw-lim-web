@@ -16,8 +16,20 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description} ogImage={post.data.ogImage}>
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  thumbnail={post.data.thumbnail}
+>
   <article>
+    <img
+      src={post.data.thumbnail}
+      alt={post.data.title}
+      width="1200"
+      height="300"
+      class="mb-8 block w-full rounded-[10px] border border-[var(--border)]"
+      style="height: 300px; object-fit: cover;"
+    />
     <header class="mb-10">
       <div class="mb-3 flex flex-wrap gap-2">
         {

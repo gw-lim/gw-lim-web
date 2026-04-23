@@ -2,7 +2,6 @@
 import type { CollectionEntry } from 'astro:content';
 import { formatDate } from '../../utils/date';
 import { calcReadTime } from '../../utils/readTime';
-import HeroImagePlaceholder from './HeroImagePlaceholder.astro';
 
 interface Props {
   post: CollectionEntry<'posts'>;
@@ -58,17 +57,13 @@ const readTime = calcReadTime(post.body);
       showImg && (
         <div class="h-[72px] w-24 flex-shrink-0 overflow-hidden rounded-[6px] border border-[var(--border)]">
           <div class="h-full w-full transition-transform duration-[350ms] ease-out group-hover:scale-[1.05]">
-            {post.data.heroImage ? (
-              <img
-                src={post.data.heroImage}
-                alt={post.data.title}
-                width="96"
-                height="72"
-                style="display: block; width: 100%; height: 72px; object-fit: cover;"
-              />
-            ) : (
-              <HeroImagePlaceholder label={`hero image — ${post.id}`} height={72} />
-            )}
+            <img
+              src={post.data.thumbnail}
+              alt={post.data.title}
+              width="96"
+              height="72"
+              style="display: block; width: 100%; height: 72px; object-fit: cover;"
+            />
           </div>
         </div>
       )

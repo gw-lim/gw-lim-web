@@ -6,13 +6,13 @@ import LinkedInIcon from '../components/icons/LinkedInIcon.astro';
 interface Props {
   title?: string;
   description?: string;
-  ogImage?: string;
+  thumbnail?: string;
 }
 
 const {
   title,
   description = 'Software Engineer gw-lim의 개발 블로그입니다.',
-  ogImage,
+  thumbnail,
 } = Astro.props;
 const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astro.url;
 const pageTitle = title ? `${title} | gw-lim` : 'gw-lim';
@@ -34,7 +34,7 @@ const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a9
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={description} />
-    {ogImage && Astro.site && <meta property="og:image" content={new URL(ogImage, Astro.site)} />}
+    {thumbnail && Astro.site && <meta property="og:image" content={new URL(thumbnail, Astro.site)} />}
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css"
