@@ -8,6 +8,8 @@ export async function getStaticPaths() {
   const series = await getCollection('series');
   const posts = await getCollection('posts', ({ data }) => !data.draft);
 
+  // entry.data.id is the id field from series.json (our slug).
+  // entry.id is Astro's loader-assigned synthetic id — do not use for routes.
   return series.map((entry) => ({
     params: { id: entry.data.id },
     props: {
