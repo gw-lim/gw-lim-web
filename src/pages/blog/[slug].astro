@@ -2,17 +2,28 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GiscusComments from '../../components/Giscus';
+import SeriesPostList from '../../components/blog/SeriesPostList.astro';
 import { formatDate } from '../../utils/date';
+import { getSeriesPosts } from '../../utils/collection';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => !data.draft);
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  const series = await getCollection('series');
+
+  return posts.map((post) => {
+    const seriesEntry = post.data.seriesId
+      ? series.find((s) => s.data.id === post.data.seriesId)
+      : undefined;
+    const seriesPosts = seriesEntry ? getSeriesPosts(posts, seriesEntry.data.id) : [];
+
+    return {
+      params: { slug: post.id },
+      props: { post, series: seriesEntry, seriesPosts },
+    };
+  });
 }
 
-const { post } = Astro.props;
+const { post, series, seriesPosts } = Astro.props;
 const { Content } = await render(post);
 ---
 
@@ -31,6 +42,20 @@ const { Content } = await render(post);
       style="height: 300px; object-fit: cover;"
     />
     <header class="mb-10">
+      {
+        series && (
+          <div class="mb-3">
+            <a
+              href={`/blog/series/${series.data.id}`}
+              class="inline-flex items-center gap-1 rounded bg-blue-50 px-2 py-0.5 text-sm text-blue-600 hover:bg-blue-100"
+            >
+              <span class="text-xs uppercase tracking-wide">시리즈</span>
+              <span class="text-gray-300">·</span>
+              <span>{series.data.name}</span>
+            </a>
+          </div>
+        )
+      }
       <div class="mb-3 flex flex-wrap gap-2">
         {
           post.data.tags.map((tag) => (
@@ -44,7 +69,7 @@ const { Content } = await render(post);
         }
       </div>
       <h1 class="mb-2 text-4xl font-bold leading-tight">{post.data.title}</h1>
-      <p class="mb-3 text-gray-500">{post.data.description}</p>
+      <p class="mb-3 text-sm text-gray-500">{post.data.description}</p>
       <div class="flex items-center gap-4 text-sm text-gray-400">
         <time datetime={post.data.createdAt}>{formatDate(post.data.createdAt)}</time>
       </div>
@@ -53,6 +78,13 @@ const { Content } = await render(post);
       <Content />
     </div>
   </article>
+  {
+    series && (
+      <section class="mt-12">
+        <SeriesPostList series={series} posts={seriesPosts} currentPostId={post.id} />
+      </section>
+    )
+  }
   <section class="mt-16 border-t border-gray-100 pt-10">
     <GiscusComments client:only="react" />
   </section>
