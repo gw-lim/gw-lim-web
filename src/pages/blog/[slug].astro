@@ -16,7 +16,11 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BaseLayout title={post.data.title} thumbnail={post.data.thumbnail}>
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  thumbnail={post.data.thumbnail}
+>
   <article>
     <img
       src={post.data.thumbnail}
@@ -39,7 +43,8 @@ const { Content } = await render(post);
           ))
         }
       </div>
-      <h1 class="mb-3 text-4xl font-bold leading-tight">{post.data.title}</h1>
+      <h1 class="mb-2 text-4xl font-bold leading-tight">{post.data.title}</h1>
+      <p class="mb-3 text-gray-500">{post.data.description}</p>
       <div class="flex items-center gap-4 text-sm text-gray-400">
         <time datetime={post.data.createdAt}>{formatDate(post.data.createdAt)}</time>
       </div>

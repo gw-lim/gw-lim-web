@@ -35,6 +35,7 @@ const { post } = Astro.props;
         {post.data.title}
       </a>
     </h2>
+    <p class="mb-2 text-sm text-gray-500">{post.data.description}</p>
     <time datetime={post.data.createdAt} class="text-xs text-gray-400">
       {formatDate(post.data.createdAt)}
     </time>
