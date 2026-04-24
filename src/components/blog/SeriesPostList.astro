@@ -1,0 +1,59 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  series: CollectionEntry<'series'>;
+  posts: CollectionEntry<'posts'>[];
+  currentPostId?: string;
+}
+
+const { series, posts, currentPostId } = Astro.props;
+const showHeader = currentPostId !== undefined;
+---
+
+<aside class="rounded-lg border border-gray-200 p-6">
+  {
+    showHeader && (
+      <div class="mb-4 border-b border-gray-100 pb-3">
+        <p class="mb-1 text-xs uppercase tracking-wide text-gray-400">시리즈</p>
+        <a
+          href={`/blog/series/${series.data.id}`}
+          class="text-lg font-semibold hover:text-blue-600"
+        >
+          {series.data.name}
+        </a>
+        {series.data.description && (
+          <p class="mt-1 text-sm text-gray-500">{series.data.description}</p>
+        )}
+      </div>
+    )
+  }
+  {
+    posts.length === 0 ? (
+      <p class="text-sm text-gray-400">아직 포스트가 없습니다.</p>
+    ) : (
+      <ol class="flex flex-col gap-1">
+        {posts.map((post, index) => {
+          const isCurrent = post.id === currentPostId;
+          const label = `${index + 1}. ${post.data.title}`;
+          return (
+            <li>
+              {isCurrent ? (
+                <span class="block rounded bg-gray-100 px-3 py-2 text-sm font-medium text-gray-900">
+                  {label}
+                </span>
+              ) : (
+                <a
+                  href={`/blog/${post.id}`}
+                  class="block rounded px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-blue-600"
+                >
+                  {label}
+                </a>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    )
+  }
+</aside>
