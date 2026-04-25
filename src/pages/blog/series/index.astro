@@ -45,7 +45,7 @@ const totalPosts = seriesData.reduce((acc, s) => acc + s.postCount, 0);
     <div class="mb-5">
       <a
         href="/blog"
-        class="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-faint no-underline transition-colors duration-150 hover:text-ink"
+        class="text-ink-faint hover:text-ink inline-flex items-center gap-1.5 text-[13px] font-medium no-underline transition-colors duration-150"
       >
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path
@@ -61,18 +61,18 @@ const totalPosts = seriesData.reduce((acc, s) => acc + s.postCount, 0);
     <div class="flex items-end justify-between">
       <div>
         <h1
-          class="mb-1.5 text-[clamp(28px,5vw,38px)] font-extrabold leading-[1.15] tracking-[-0.03em] text-ink"
+          class="text-ink mb-1.5 text-[clamp(28px,5vw,38px)] font-extrabold leading-[1.15] tracking-[-0.03em]"
         >
-          시리즈
+          Series
         </h1>
-        <p class="text-[14px] text-ink-faint">
+        <p class="text-ink-faint text-[14px]">
           총 {seriesData.length}개의 시리즈 · {totalPosts}개의 글
         </p>
       </div>
     </div>
   </section>
 
-  <div class="h-px bg-ink-border"></div>
+  <div class="bg-ink-border h-px"></div>
 
   <section class="fade-in pb-20 pt-11">
     {
@@ -83,7 +83,7 @@ const totalPosts = seriesData.reduce((acc, s) => acc + s.postCount, 0);
           ))}
         </div>
       ) : (
-        <p class="py-20 text-center text-[14px] text-ink-faint">아직 시리즈가 없습니다.</p>
+        <p class="text-ink-faint py-20 text-center text-[14px]">아직 시리즈가 없습니다.</p>
       )
     }
   </section>

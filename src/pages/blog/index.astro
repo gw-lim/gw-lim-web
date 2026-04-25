@@ -29,20 +29,20 @@ const postsWithMeta = posts.map((post) => ({
 }));
 ---
 
-<BaseLayout title="Blog" description="gw-lim의 개발 블로그입니다.">
+<BaseLayout title="블로그" description="gw-lim의 개발 블로그입니다.">
   <section class="fade-in pb-10 pt-[52px]">
     <div class="mb-5 flex items-end justify-between gap-4">
       <div>
         <h1
-          class="mb-1.5 text-[clamp(28px,5vw,38px)] font-extrabold leading-[1.15] tracking-[-0.03em] text-ink"
+          class="text-ink mb-1.5 text-[clamp(28px,5vw,38px)] font-extrabold leading-[1.15] tracking-[-0.03em]"
         >
           Blog
         </h1>
-        <p class="text-[14px] text-ink-faint">총 {posts.length}개의 글</p>
+        <p class="text-ink-faint text-[14px]">총 {posts.length}개의 글</p>
       </div>
       <a
         href="/blog/series"
-        class="whitespace-nowrap text-[13px] font-medium text-ink-faint underline-offset-[3px] transition-colors duration-150 hover:text-ink hover:underline"
+        class="text-ink-faint hover:text-ink whitespace-nowrap text-[13px] font-medium underline-offset-[3px] transition-colors duration-150 hover:underline"
       >
         시리즈 보기 →
       </a>
@@ -60,17 +60,17 @@ const postsWithMeta = posts.map((post) => ({
                 type="button"
                 data-chip="1"
                 data-tag={tag}
-                class="tag-chip inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-ink-border bg-bg px-3 py-[5px] text-[12.5px] font-medium tracking-[-0.01em] text-ink-muted transition-colors duration-150 hover:border-ink-border-strong hover:bg-bg-subtle hover:text-ink"
+                class="tag-chip border-ink-border bg-bg text-ink-muted hover:border-ink-border-strong hover:bg-bg-subtle hover:text-ink inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-[5px] text-[12.5px] font-medium tracking-[-0.01em] transition-colors duration-150"
               >
                 #{tag}
-                <span class="font-mono text-[10.5px] text-ink-faint opacity-[0.55]">{count}</span>
+                <span class="text-ink-faint font-mono text-[10.5px] opacity-[0.55]">{count}</span>
               </button>
             ))}
           </div>
           <button
             type="button"
             id="tag-toggle"
-            class="mt-2.5 hidden items-center gap-1 bg-transparent text-[12px] text-ink-faint transition-colors duration-150 hover:text-ink"
+            class="text-ink-faint hover:text-ink mt-2.5 hidden items-center gap-1 bg-transparent text-[12px] transition-colors duration-150"
           >
             <span data-collapsed-label>전체 태그 보기 ↓</span>
             <span data-expanded-label class="hidden">
@@ -82,21 +82,21 @@ const postsWithMeta = posts.map((post) => ({
     }
 
     <div id="filter-banner" class="mt-3.5 hidden items-center gap-2">
-      <span class="text-[12.5px] text-ink-muted">
+      <span class="text-ink-muted text-[12.5px]">
         <strong class="text-ink" id="filter-banner-tag"></strong>으로 필터됨 — <span
           id="filter-banner-count"></span>개
       </span>
       <button
         type="button"
         id="filter-clear"
-        class="rounded border border-ink-border px-2 py-px text-[11.5px] text-ink-faint transition-colors duration-150 hover:border-ink-border-strong hover:text-ink"
+        class="border-ink-border text-ink-faint hover:border-ink-border-strong hover:text-ink rounded border px-2 py-px text-[11.5px] transition-colors duration-150"
       >
         필터 해제
       </button>
     </div>
   </section>
 
-  <div class="h-px bg-ink-border"></div>
+  <div class="bg-ink-border h-px"></div>
 
   <section class="fade-in pb-[60px] pt-11">
     <div id="post-list">
@@ -108,10 +108,10 @@ const postsWithMeta = posts.map((post) => ({
     </div>
     {
       posts.length === 0 && (
-        <p class="py-20 text-center text-[14px] text-ink-faint">아직 포스트가 없습니다.</p>
+        <p class="text-ink-faint py-20 text-center text-[14px]">아직 포스트가 없습니다.</p>
       )
     }
-    <p id="empty-state" class="hidden py-20 text-center text-[14px] text-ink-faint">
+    <p id="empty-state" class="text-ink-faint hidden py-20 text-center text-[14px]">
       해당 태그의 글이 없습니다.
     </p>
   </section>

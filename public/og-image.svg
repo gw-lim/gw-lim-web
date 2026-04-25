@@ -1,0 +1,80 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    
+  </defs>
+
+  
+  <rect width="1200" height="630" fill="#ffffff"></rect>
+
+  
+  <line x1="0" y1="1" x2="1200" y2="1" stroke="#f0f0f0" stroke-width="1"></line>
+  <line x1="0" y1="629" x2="1200" y2="629" stroke="#f0f0f0" stroke-width="1"></line>
+
+  
+  <rect x="80" y="80" width="2" height="470" fill="#e8e8e8"></rect>
+
+  
+  <g transform="translate(116, 215)">
+    <rect width="84" height="84" rx="14" fill="#111111"></rect>
+    
+    <rect x="17" y="24" width="34" height="4" rx="2" fill="#555555"></rect>
+    <rect x="17" y="35" width="24" height="4" rx="2" fill="#555555"></rect>
+    <rect x="17" y="46" width="29" height="4" rx="2" fill="#555555"></rect>
+    
+    <text x="46" y="68" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="25" font-weight="500" fill="#ffffff">g</text>
+  </g>
+
+  
+  <text x="116" y="168" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="68" font-weight="700" fill="#111111" letter-spacing="-2">gw-lim</text>
+
+  
+  <line x1="116" y1="330" x2="520" y2="330" stroke="#e8e8e8" stroke-width="1.5"></line>
+
+  
+  <text x="116" y="370" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="20" font-weight="400" fill="#999999">Software Engineer</text>
+  <text x="116" y="398" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="20" font-weight="400" fill="#999999">개발 블로그</text>
+
+  
+  <g transform="translate(680, 130)">
+    
+    <rect width="420" height="370" rx="12" fill="#111111"></rect>
+    
+    <rect width="420" height="40" rx="12" fill="#1a1a1a"></rect>
+    <rect x="0" y="28" width="420" height="12" fill="#1a1a1a"></rect>
+    
+    <circle cx="20" cy="20" r="6" fill="#3a3a3a"></circle>
+    <circle cx="38" cy="20" r="6" fill="#3a3a3a"></circle>
+    <circle cx="56" cy="20" r="6" fill="#3a3a3a"></circle>
+
+    
+    
+    <text x="24" y="76" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="14" fill="#555555">// gw-lim dev blog</text>
+    
+    <text x="24" y="104" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="14" fill="#888888">const</text>
+    <text x="72" y="104" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="14" fill="#cccccc"> blog = {</text>
+    
+    <text x="48" y="128" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="14" fill="#777777">  author:</text>
+    <text x="118" y="128" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="14" fill="#aaaaaa"> &#39;gw-lim&#39;,</text>
+    
+    <text x="48" y="152" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="14" fill="#777777">  role:</text>
+    <text x="100" y="152" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="14" fill="#aaaaaa"> &#39;Software Engineer&#39;,</text>
+    
+    <text x="48" y="176" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="14" fill="#777777">  topics:</text>
+    <text x="122" y="176" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="14" fill="#aaaaaa"> [</text>
+    
+    <text x="72" y="200" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="14" fill="#aaaaaa">  &#39;architecture&#39;,</text>
+    
+    <text x="72" y="224" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="14" fill="#aaaaaa">  &#39;engineering&#39;,</text>
+    
+    <text x="72" y="248" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="14" fill="#aaaaaa">  &#39;deep-dives&#39;,</text>
+    
+    <text x="48" y="272" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="14" fill="#aaaaaa">  ],</text>
+    
+    <text x="24" y="296" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="14" fill="#cccccc">};</text>
+    
+    <rect x="24" y="316" width="10" height="18" rx="1" fill="#555555"></rect>
+  </g>
+
+  
+  <text x="116" y="560" font-family="&#39;JetBrains Mono&#39;, &#39;Courier New&#39;, monospace" font-size="15" font-weight="400" fill="#cccccc">gw-lim.github.io</text>
+</svg>
