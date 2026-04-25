@@ -36,7 +36,7 @@ const readTime = calcReadTime(post.body);
   description={post.data.description}
   thumbnail={post.data.thumbnail}
 >
-  <TableOfContents headings={headings} />
+  <TableOfContents headings={headings} slot="aside" />
 
   <header class="fade-in pb-8 pt-14">
     {

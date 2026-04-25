@@ -14,33 +14,35 @@ const baseLinkClass =
 
 {
   items.length > 0 && (
-    <nav
-      class="fixed right-[max(24px,calc(50vw-580px))] top-[88px] hidden max-h-[calc(100vh-120px)] w-[196px] overflow-y-auto [scrollbar-width:none] min-[1080px]:block [&::-webkit-scrollbar]:hidden"
-      aria-label="목차"
-      data-toc
-    >
-      <div class="text-ink-faint mb-3 font-mono text-[10.5px] font-semibold uppercase tracking-[0.09em]">
-        목차
-      </div>
-      <ul class="m-0 list-none p-0">
-        {items.map((item) => (
-          <li class="p-0">
-            <a
-              href={`#${item.slug}`}
-              data-toc-link={item.slug}
-              data-depth={item.depth}
-              class={
-                item.depth === 3
-                  ? `${baseLinkClass} pl-[22px] text-[11.5px]`
-                  : `${baseLinkClass} pl-3`
-              }
-            >
-              {item.text}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <div class="pointer-events-none absolute inset-y-0 right-[max(24px,calc(50vw-580px))] hidden w-[196px] min-[1080px]:block">
+      <nav
+        class="pointer-events-auto sticky top-[88px] max-h-[calc(100vh-120px)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        aria-label="목차"
+        data-toc
+      >
+        <div class="text-ink-faint mb-3 font-mono text-[10.5px] font-semibold uppercase tracking-[0.09em]">
+          목차
+        </div>
+        <ul class="m-0 list-none p-0">
+          {items.map((item) => (
+            <li class="p-0">
+              <a
+                href={`#${item.slug}`}
+                data-toc-link={item.slug}
+                data-depth={item.depth}
+                class={
+                  item.depth === 3
+                    ? `${baseLinkClass} pl-[22px] text-[11.5px]`
+                    : `${baseLinkClass} pl-3`
+                }
+              >
+                {item.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
   )
 }
 
