@@ -1,0 +1,44 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  posts: CollectionEntry<'posts'>[];
+  currentPostId: string;
+}
+
+const { posts, currentPostId } = Astro.props;
+const currentIndex = posts.findIndex((p) => p.id === currentPostId);
+const prev = currentIndex > 0 ? posts[currentIndex - 1] : null;
+const next = currentIndex >= 0 && currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
+const items = [
+  prev && { label: '이전 글', post: prev, dir: '←', align: 'left' as const },
+  next && { label: '다음 글', post: next, dir: '→', align: 'right' as const },
+].filter((x): x is NonNullable<typeof x> => x !== null);
+---
+
+{
+  items.length > 0 && (
+    <div class="border-ink-border flex flex-col gap-3 border-t pb-16 pt-9">
+      <div class="text-ink-faint mb-1 font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
+        이 시리즈의 다른 글
+      </div>
+      {items.map((item) => (
+        <a
+          href={`/blog/${item.post.id}`}
+          class="border-ink-border text-ink hover:border-ink-border-strong flex items-center justify-between gap-4 rounded-lg border px-[18px] py-4 no-underline transition-[border-color,box-shadow] duration-150 hover:shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
+        >
+          {item.align === 'left' && (
+            <span class="text-ink-faint flex-shrink-0 text-lg">{item.dir}</span>
+          )}
+          <div class={item.align === 'right' ? 'text-left' : 'text-right'}>
+            <div class="text-ink-faint mb-1 font-mono text-[11px]">{item.label}</div>
+            <div class="text-[14px] font-semibold tracking-[-0.01em]">{item.post.data.title}</div>
+          </div>
+          {item.align === 'right' && (
+            <span class="text-ink-faint flex-shrink-0 text-lg">{item.dir}</span>
+          )}
+        </a>
+      ))}
+    </div>
+  )
+}

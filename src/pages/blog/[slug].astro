@@ -3,8 +3,11 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GiscusComments from '../../components/Giscus';
 import SeriesPostList from '../../components/blog/SeriesPostList.astro';
+import SeriesNav from '../../components/blog/SeriesNav.astro';
+import TableOfContents from '../../components/blog/TableOfContents.astro';
 import { formatDate } from '../../utils/date';
 import { getSeriesPosts } from '../../utils/collection';
+import { calcReadTime } from '../../utils/readTime';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => !data.draft);
@@ -24,7 +27,8 @@ export async function getStaticPaths() {
 }
 
 const { post, series, seriesPosts } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+const readTime = calcReadTime(post.body);
 ---
 
 <BaseLayout
@@ -32,60 +36,73 @@ const { Content } = await render(post);
   description={post.data.description}
   thumbnail={post.data.thumbnail}
 >
-  <article>
-    <img
-      src={post.data.thumbnail}
-      alt={post.data.title}
-      width="1200"
-      height="300"
-      class="mb-8 block w-full rounded-[10px] border border-[var(--border)]"
-      style="height: 300px; object-fit: cover;"
-    />
-    <header class="mb-10">
+  <TableOfContents headings={headings} />
+
+  <header class="fade-in pb-8 pt-14">
+    {
+      series && (
+        <div class="mb-3.5">
+          <a
+            href={`/blog/series/${series.data.id}`}
+            class="border-ink-border text-ink-faint hover:text-ink-muted inline-block rounded border px-[9px] py-0.5 font-mono text-[11px] font-medium tracking-[0.04em] no-underline transition-colors duration-150"
+          >
+            시리즈 · {series.data.name}
+          </a>
+        </div>
+      )
+    }
+
+    <h1
+      class="text-ink mb-4 text-[clamp(24px,4vw,34px)] font-extrabold leading-[1.25] tracking-[-0.03em] [text-wrap:pretty]"
+    >
+      {post.data.title}
+    </h1>
+
+    <p class="text-ink-muted mb-5 text-[15px] leading-[1.7] [text-wrap:pretty]">
+      {post.data.description}
+    </p>
+
+    <div class="mb-5 flex flex-wrap items-center gap-2.5">
+      <time datetime={post.data.createdAt} class="text-ink-faint text-[12.5px]">
+        {formatDate(post.data.createdAt)}
+      </time>
+      <span class="text-ink-border-strong text-[12.5px]">·</span>
+      <span class="text-ink-faint text-[12.5px]">약 {readTime} 읽기</span>
       {
-        series && (
-          <div class="mb-3">
-            <a
-              href={`/blog/series/${series.data.id}`}
-              class="inline-flex items-center gap-1 rounded bg-blue-50 px-2 py-0.5 text-sm text-blue-600 hover:bg-blue-100"
-            >
-              <span class="text-xs uppercase tracking-wide">시리즈</span>
-              <span class="text-gray-300">·</span>
-              <span>{series.data.name}</span>
-            </a>
-          </div>
+        post.data.tags.length > 0 && (
+          <>
+            <span class="text-ink-border-strong text-[12.5px]">·</span>
+            <div class="flex flex-wrap gap-1.5">
+              {post.data.tags.map((tag) => (
+                <a
+                  href={`/blog/tags/${encodeURIComponent(tag)}`}
+                  class="bg-tag-bg text-tag-text inline-block whitespace-nowrap rounded px-2 py-0.5 text-[11px] font-medium tracking-[0.01em] no-underline"
+                >
+                  #{tag}
+                </a>
+              ))}
+            </div>
+          </>
         )
       }
-      <div class="mb-3 flex flex-wrap gap-2">
-        {
-          post.data.tags.map((tag) => (
-            <a
-              href={`/blog/tags/${encodeURIComponent(tag)}`}
-              class="rounded bg-gray-100 px-2 py-0.5 text-sm text-gray-500 hover:bg-gray-200"
-            >
-              #{tag}
-            </a>
-          ))
-        }
-      </div>
-      <h1 class="mb-2 text-4xl font-bold leading-tight">{post.data.title}</h1>
-      <p class="mb-3 text-sm text-gray-500">{post.data.description}</p>
-      <div class="flex items-center gap-4 text-sm text-gray-400">
-        <time datetime={post.data.createdAt}>{formatDate(post.data.createdAt)}</time>
-      </div>
-    </header>
-    <div class="prose prose-gray max-w-none">
-      <Content />
     </div>
+  </header>
+
+  <article class="prose prose-gray max-w-none">
+    <Content />
   </article>
+
   {
     series && (
-      <section class="mt-12">
+      <section class="mt-4">
         <SeriesPostList series={series} posts={seriesPosts} currentPostId={post.id} />
       </section>
     )
   }
-  <section class="mt-16 border-t border-gray-100 pt-10">
+
+  {series && <SeriesNav posts={seriesPosts} currentPostId={post.id} />}
+
+  <section class="border-ink-border mt-16 border-t pt-10">
     <GiscusComments client:only="react" />
   </section>
 </BaseLayout>
