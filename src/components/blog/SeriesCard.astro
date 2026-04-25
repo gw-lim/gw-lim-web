@@ -1,19 +1,149 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 
+interface SeriesPostMeta {
+  id: string;
+  title: string;
+  date: string;
+  readTimeLabel: string;
+}
+
 interface Props {
   series: CollectionEntry<'series'>;
   postCount: number;
+  tags: string[];
+  latestDate: string;
+  totalReadTimeMinutes: number;
+  posts: SeriesPostMeta[];
 }
 
-const { series, postCount } = Astro.props;
+const { series, postCount, tags, latestDate, totalReadTimeMinutes, posts } = Astro.props;
+const seriesName = series.data.name.trim();
 ---
 
-<a
-  href={`/blog/series/${series.data.id}`}
-  class="block rounded-lg border border-gray-200 p-6 transition hover:border-gray-300 hover:bg-gray-50"
+<article
+  class="series-card border-ink-border bg-bg hover:border-ink-border-strong relative overflow-hidden rounded-[10px] border shadow-[0_1px_4px_rgba(0,0,0,0.03)] transition-[box-shadow,border-color] duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.05)]"
+  data-series-id={series.data.id}
 >
-  <h2 class="mb-1 text-xl font-semibold">{series.data.name}</h2>
-  {series.data.description && <p class="mb-3 text-sm text-gray-500">{series.data.description}</p>}
-  <span class="text-xs text-gray-400">{postCount}개의 포스트</span>
-</a>
+  <button
+    type="button"
+    class="series-toggle block w-full cursor-pointer border-0 bg-transparent px-[26px] py-6 text-left transition-colors duration-200"
+    aria-expanded="false"
+    aria-controls={`series-body-${series.data.id}`}
+  >
+    <div class="flex items-start justify-between gap-4">
+      <div class="min-w-0 flex-1">
+        <div class="mb-2.5">
+          <span
+            class="border-ink-border text-ink-faint inline-block rounded border px-2 py-0.5 font-mono text-[10px] font-medium tracking-[0.04em]"
+          >
+            시리즈 · {postCount}편
+          </span>
+        </div>
+        <h2
+          class="text-ink mb-2 text-[18px] font-bold leading-[1.4] tracking-[-0.025em] [text-wrap:pretty]"
+        >
+          {seriesName}
+        </h2>
+        {
+          series.data.description && (
+            <p class="text-ink-muted mb-3.5 text-[13px] leading-[1.7] [text-wrap:pretty]">
+              {series.data.description}
+            </p>
+          )
+        }
+        {
+          tags.length > 0 && (
+            <div class="mb-3.5 flex flex-wrap gap-[5px]">
+              {tags.map((tag) => (
+                <span class="bg-tag-bg text-tag-text inline-block whitespace-nowrap rounded px-2 py-0.5 text-[11px] font-medium tracking-[0.01em]">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )
+        }
+        <div class="flex items-center gap-2">
+          {
+            latestDate && (
+              <>
+                <span class="text-ink-faint text-[11.5px]">최신 {latestDate}</span>
+                <span class="text-ink-border-strong text-[11.5px]">·</span>
+              </>
+            )
+          }
+          <span class="text-ink-faint text-[11.5px]">총 {totalReadTimeMinutes}분 읽기</span>
+        </div>
+      </div>
+      <span
+        aria-hidden="true"
+        class="series-chevron border-ink-border bg-bg mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md border transition-[background-color,border-color] duration-200"
+      >
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
+          class="series-chevron-icon transition-transform duration-[250ms]"
+        >
+          <path
+            d="M2 4L6 8L10 4"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="series-chevron-stroke text-ink-faint"></path>
+        </svg>
+      </span>
+    </div>
+  </button>
+
+  <div
+    id={`series-body-${series.data.id}`}
+    class="series-body border-ink-border hidden border-t px-[26px] pb-5 pt-1"
+  >
+    <div class="pt-4">
+      {
+        posts.map((post, i) => (
+          <a
+            href={`/blog/${post.id}`}
+            class="series-post-row group/post border-ink-border relative flex items-center gap-3 border-b py-2.5 no-underline last:border-b-0"
+          >
+            <span class="text-ink-faint min-w-[18px] flex-shrink-0 text-right font-mono text-[10px] font-medium">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <div class="min-w-0 flex-1">
+              <p class="text-ink-muted group-hover/post:text-ink group-hover/post:decoration-ink-border-strong truncate text-[13.5px] font-semibold tracking-[-0.01em] underline-offset-[3px] transition-colors duration-150 group-hover/post:underline">
+                {post.title}
+              </p>
+            </div>
+            <div class="flex flex-shrink-0 items-center gap-1.5">
+              <time class="text-ink-faint whitespace-nowrap text-[11px]">{post.date}</time>
+              <span class="text-ink-border-strong text-[11px]">·</span>
+              <span class="text-ink-faint whitespace-nowrap text-[11px]">{post.readTimeLabel}</span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</article>
+
+<style>
+  .series-card.is-expanded {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  }
+  .series-card.is-expanded .series-toggle {
+    background: var(--bg-subtle);
+  }
+  .series-card.is-expanded .series-chevron {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+  .series-card.is-expanded .series-chevron-icon {
+    transform: rotate(180deg);
+  }
+  .series-card.is-expanded .series-chevron-stroke {
+    color: #ffffff;
+  }
+</style>

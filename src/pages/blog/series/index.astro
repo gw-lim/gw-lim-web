@@ -1,28 +1,120 @@
 ---
 import { getCollection } from 'astro:content';
+import dayjs from 'dayjs';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import SeriesCard from '../../../components/blog/SeriesCard.astro';
+import { formatDate } from '../../../utils/date';
+import { calcReadTime } from '../../../utils/readTime';
 
-const series = await getCollection('series');
-const posts = await getCollection('posts', ({ data }) => !data.draft);
+const allSeries = await getCollection('series');
+const allPosts = await getCollection('posts', ({ data }) => !data.draft);
 
-const seriesWithCount = series.map((s) => ({
-  series: s,
-  postCount: posts.filter((p) => p.data.seriesId === s.data.id).length,
-}));
+const seriesData = allSeries.map((series) => {
+  const posts = allPosts
+    .filter((p) => p.data.seriesId === series.data.id)
+    .sort((a, b) => dayjs(a.data.createdAt).valueOf() - dayjs(b.data.createdAt).valueOf());
+
+  const tags = [...new Set(posts.flatMap((p) => p.data.tags))];
+
+  const postsWithMeta = posts.map((p) => {
+    const minutes = parseInt(calcReadTime(p.body), 10) || 0;
+    return {
+      id: p.id,
+      title: p.data.title,
+      date: formatDate(p.data.createdAt),
+      readTimeMinutes: minutes,
+      readTimeLabel: `${minutes}분`,
+    };
+  });
+
+  return {
+    series,
+    postCount: posts.length,
+    tags,
+    latestDate: posts.length > 0 ? formatDate(posts[posts.length - 1].data.createdAt) : '',
+    totalReadTimeMinutes: postsWithMeta.reduce((acc, p) => acc + p.readTimeMinutes, 0),
+    posts: postsWithMeta.map(({ readTimeMinutes: _omit, ...rest }) => rest),
+  };
+});
+
+const totalPosts = seriesData.reduce((acc, s) => acc + s.postCount, 0);
 ---
 
 <BaseLayout title="시리즈" description="주제별로 연결된 포스트를 묶어 정리한 시리즈 목록입니다.">
-  <div class="mb-2">
-    <a href="/blog" class="text-sm text-gray-400 hover:text-gray-600">← Blog</a>
-  </div>
-  <h1 class="mb-8 text-3xl font-bold">시리즈</h1>
-  <div class="grid gap-4">
+  <section class="fade-in pb-10 pt-[52px]">
+    <div class="mb-5">
+      <a
+        href="/blog"
+        class="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-faint no-underline transition-colors duration-150 hover:text-ink"
+      >
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path
+            d="M9 2L4 7L9 12"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+        블로그로
+      </a>
+    </div>
+    <div class="flex items-end justify-between">
+      <div>
+        <h1
+          class="mb-1.5 text-[clamp(28px,5vw,38px)] font-extrabold leading-[1.15] tracking-[-0.03em] text-ink"
+        >
+          시리즈
+        </h1>
+        <p class="text-[14px] text-ink-faint">
+          총 {seriesData.length}개의 시리즈 · {totalPosts}개의 글
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="h-px bg-ink-border"></div>
+
+  <section class="fade-in pb-20 pt-11">
     {
-      seriesWithCount.map(({ series, postCount }) => (
-        <SeriesCard series={series} postCount={postCount} />
-      ))
+      seriesData.length > 0 ? (
+        <div class="flex flex-col gap-4">
+          {seriesData.map((data) => (
+            <SeriesCard {...data} />
+          ))}
+        </div>
+      ) : (
+        <p class="py-20 text-center text-[14px] text-ink-faint">아직 시리즈가 없습니다.</p>
+      )
     }
-  </div>
-  {seriesWithCount.length === 0 && <p class="text-gray-400">아직 시리즈가 없습니다.</p>}
+  </section>
 </BaseLayout>
+
+<script>
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('.series-card'));
+  let openId: string | null = null;
+
+  const setExpanded = (card: HTMLElement, expanded: boolean) => {
+    const toggle = card.querySelector<HTMLButtonElement>('.series-toggle');
+    const body = card.querySelector<HTMLElement>('.series-body');
+    if (!toggle || !body) return;
+    toggle.setAttribute('aria-expanded', String(expanded));
+    body.classList.toggle('hidden', !expanded);
+    card.classList.toggle('is-expanded', expanded);
+  };
+
+  cards.forEach((card) => {
+    const toggle = card.querySelector<HTMLButtonElement>('.series-toggle');
+    if (!toggle) return;
+    toggle.addEventListener('click', () => {
+      const id = card.dataset.seriesId ?? null;
+      const wasOpen = openId === id;
+      cards.forEach((c) => setExpanded(c, false));
+      if (!wasOpen && id) {
+        openId = id;
+        setExpanded(card, true);
+      } else {
+        openId = null;
+      }
+    });
+  });
+</script>
