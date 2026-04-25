@@ -1,21 +1,258 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import PostCard from '../../components/blog/PostCard.astro';
+import PostRow from '../../components/blog/PostRow.astro';
 import { sortByDate } from '../../utils/collection';
+import { calcReadTime } from '../../utils/readTime';
 
 const allPosts = await getCollection('posts', ({ data }) => !data.draft);
+const allSeries = await getCollection('series');
 const sorted = sortByDate(allPosts);
 const pinned = sorted.filter((p) => p.data.pinned);
 const rest = sorted.filter((p) => !p.data.pinned);
 const posts = [...pinned, ...rest];
+
+const tagCounts = new Map<string, number>();
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+  }
+}
+const sortedTags = [...tagCounts.entries()].sort(([, a], [, b]) => b - a);
+
+const seriesById = new Map(allSeries.map((s) => [s.data.id, s.data.name]));
+
+const postsWithMeta = posts.map((post) => ({
+  post,
+  seriesName: post.data.seriesId ? seriesById.get(post.data.seriesId) : undefined,
+  readTime: calcReadTime(post.body),
+}));
 ---
 
 <BaseLayout title="Blog" description="gw-lim의 개발 블로그입니다.">
-  <div class="mb-8 flex items-center justify-between">
-    <h1 class="text-3xl font-bold">Blog</h1>
-    <a href="/blog/series" class="text-sm text-blue-600 hover:underline"> 시리즈 보기 → </a>
-  </div>
-  {posts.map((post) => <PostCard post={post} />)}
-  {posts.length === 0 && <p class="text-gray-400">아직 포스트가 없습니다.</p>}
+  <section class="fade-in pb-10 pt-[52px]">
+    <div class="mb-5 flex items-end justify-between gap-4">
+      <div>
+        <h1
+          class="mb-1.5 text-[clamp(28px,5vw,38px)] font-extrabold leading-[1.15] tracking-[-0.03em] text-ink"
+        >
+          Blog
+        </h1>
+        <p class="text-[14px] text-ink-faint">총 {posts.length}개의 글</p>
+      </div>
+      <a
+        href="/blog/series"
+        class="whitespace-nowrap text-[13px] font-medium text-ink-faint underline-offset-[3px] transition-colors duration-150 hover:text-ink hover:underline"
+      >
+        시리즈 보기 →
+      </a>
+    </div>
+
+    {
+      sortedTags.length > 0 && (
+        <div class="mt-6">
+          <div
+            id="tag-wrap"
+            class="tag-scroll flex flex-wrap gap-1.5 transition-[max-height] duration-300 ease-in-out"
+          >
+            {sortedTags.map(([tag, count]) => (
+              <button
+                type="button"
+                data-chip="1"
+                data-tag={tag}
+                class="tag-chip inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-ink-border bg-bg px-3 py-[5px] text-[12.5px] font-medium tracking-[-0.01em] text-ink-muted transition-colors duration-150 hover:border-ink-border-strong hover:bg-bg-subtle hover:text-ink"
+              >
+                #{tag}
+                <span class="font-mono text-[10.5px] text-ink-faint opacity-[0.55]">{count}</span>
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            id="tag-toggle"
+            class="mt-2.5 hidden items-center gap-1 bg-transparent text-[12px] text-ink-faint transition-colors duration-150 hover:text-ink"
+          >
+            <span data-collapsed-label>전체 태그 보기 ↓</span>
+            <span data-expanded-label class="hidden">
+              접기 ↑
+            </span>
+          </button>
+        </div>
+      )
+    }
+
+    <div id="filter-banner" class="mt-3.5 hidden items-center gap-2">
+      <span class="text-[12.5px] text-ink-muted">
+        <strong class="text-ink" id="filter-banner-tag"></strong>으로 필터됨 — <span
+          id="filter-banner-count"></span>개
+      </span>
+      <button
+        type="button"
+        id="filter-clear"
+        class="rounded border border-ink-border px-2 py-px text-[11.5px] text-ink-faint transition-colors duration-150 hover:border-ink-border-strong hover:text-ink"
+      >
+        필터 해제
+      </button>
+    </div>
+  </section>
+
+  <div class="h-px bg-ink-border"></div>
+
+  <section class="fade-in pb-[60px] pt-11">
+    <div id="post-list">
+      {
+        postsWithMeta.map(({ post, seriesName, readTime }) => (
+          <PostRow post={post} seriesName={seriesName} readTime={readTime} />
+        ))
+      }
+    </div>
+    {
+      posts.length === 0 && (
+        <p class="py-20 text-center text-[14px] text-ink-faint">아직 포스트가 없습니다.</p>
+      )
+    }
+    <p id="empty-state" class="hidden py-20 text-center text-[14px] text-ink-faint">
+      해당 태그의 글이 없습니다.
+    </p>
+  </section>
 </BaseLayout>
+
+<style>
+  :global(.hidden-by-filter) {
+    display: none;
+  }
+  .chip-active,
+  .chip-active:hover {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+    font-weight: 600;
+  }
+  .chip-active span {
+    color: var(--bg);
+    opacity: 0.7;
+  }
+</style>
+
+<script>
+  const wrap = document.getElementById('tag-wrap');
+  const toggleBtn = document.getElementById('tag-toggle');
+  const collapsedLabel = toggleBtn?.querySelector('[data-collapsed-label]');
+  const expandedLabel = toggleBtn?.querySelector('[data-expanded-label]');
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('.tag-chip'));
+  const banner = document.getElementById('filter-banner');
+  const bannerTag = document.getElementById('filter-banner-tag');
+  const bannerCount = document.getElementById('filter-banner-count');
+  const clearBtn = document.getElementById('filter-clear');
+  const list = document.getElementById('post-list');
+  const empty = document.getElementById('empty-state');
+
+  let activeTag: string | null = null;
+  let collapsedHeight: number | null = null;
+  let expanded = false;
+
+  const measure = () => {
+    if (!wrap || !toggleBtn) return;
+    const items = Array.from(wrap.children).filter(
+      (c): c is HTMLElement => c instanceof HTMLElement && c.dataset.chip === '1',
+    );
+    if (items.length === 0) return;
+    const rowH = items[0].getBoundingClientRect().height;
+    const gap = 6;
+    const twoH = rowH * 2 + gap + 2;
+    collapsedHeight = twoH;
+
+    const prevMax = wrap.style.maxHeight;
+    const prevOverflow = wrap.style.overflow;
+    wrap.style.maxHeight = '';
+    wrap.style.overflow = '';
+    const fullH = wrap.scrollHeight;
+    wrap.style.maxHeight = prevMax;
+    wrap.style.overflow = prevOverflow;
+
+    const overflow = fullH > twoH + 4;
+    if (overflow) {
+      toggleBtn.classList.remove('hidden');
+      toggleBtn.classList.add('flex');
+      applyCollapse();
+    } else {
+      toggleBtn.classList.add('hidden');
+      toggleBtn.classList.remove('flex');
+      wrap.style.maxHeight = '';
+      wrap.style.overflow = '';
+    }
+  };
+
+  const applyCollapse = () => {
+    if (!wrap || collapsedHeight === null) return;
+    if (expanded) {
+      wrap.style.maxHeight = '';
+      wrap.style.overflow = '';
+      collapsedLabel?.classList.add('hidden');
+      expandedLabel?.classList.remove('hidden');
+    } else {
+      wrap.style.maxHeight = `${collapsedHeight}px`;
+      wrap.style.overflow = 'hidden';
+      collapsedLabel?.classList.remove('hidden');
+      expandedLabel?.classList.add('hidden');
+    }
+  };
+
+  toggleBtn?.addEventListener('click', () => {
+    expanded = !expanded;
+    applyCollapse();
+  });
+
+  const renderChipState = () => {
+    chips.forEach((chip) => {
+      chip.classList.toggle('chip-active', chip.dataset.tag === activeTag);
+    });
+  };
+
+  const applyFilter = () => {
+    if (!list) return;
+    const rows = list.querySelectorAll<HTMLElement>('article');
+    let visible = 0;
+    rows.forEach((row) => {
+      const tags = (row.dataset.tags ?? '').split(',');
+      const match = !activeTag || tags.includes(activeTag);
+      row.classList.toggle('hidden-by-filter', !match);
+      if (match) visible++;
+    });
+
+    if (banner && bannerTag && bannerCount) {
+      if (activeTag) {
+        bannerTag.textContent = `#${activeTag}`;
+        bannerCount.textContent = String(visible);
+        banner.classList.remove('hidden');
+        banner.classList.add('flex');
+      } else {
+        banner.classList.add('hidden');
+        banner.classList.remove('flex');
+      }
+    }
+
+    if (empty) {
+      const showEmpty = activeTag !== null && visible === 0;
+      empty.classList.toggle('hidden', !showEmpty);
+    }
+
+    renderChipState();
+  };
+
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const tag = chip.dataset.tag ?? null;
+      activeTag = activeTag === tag ? null : tag;
+      applyFilter();
+    });
+  });
+
+  clearBtn?.addEventListener('click', () => {
+    activeTag = null;
+    applyFilter();
+  });
+
+  measure();
+  window.addEventListener('resize', measure);
+</script>

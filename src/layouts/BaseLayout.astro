@@ -18,6 +18,10 @@ const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astr
 const pageTitle = title ? `${title} | gw-lim` : 'gw-lim';
 const ogTitle = title ?? 'gw-lim';
 
+const pathname = Astro.url.pathname;
+const isBlogActive = pathname === '/blog' || pathname.startsWith('/blog/');
+const isResumeActive = pathname === '/resume' || pathname.startsWith('/resume/');
+
 const githubUrl = 'https://github.com/gw-lim';
 const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a994972a3/';
 ---
@@ -34,7 +38,11 @@ const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a9
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={description} />
-    {thumbnail && Astro.site && <meta property="og:image" content={new URL(thumbnail, Astro.site)} />}
+    {
+      thumbnail && Astro.site && (
+        <meta property="og:image" content={new URL(thumbnail, Astro.site)} />
+      )
+    }
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css"
@@ -47,30 +55,36 @@ const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a9
     <header
       class="sticky top-0 z-50 border-b border-[var(--border)] bg-white/90 backdrop-blur-[10px]"
     >
-      <nav class="max-w-content mx-auto flex h-14 items-center justify-between px-6">
+      <nav class="mx-auto flex h-14 max-w-content items-center justify-between px-6">
         <a
           href="/"
-          class="text-ink whitespace-nowrap font-mono text-[17px] font-bold tracking-[-0.02em] no-underline"
+          class="whitespace-nowrap font-mono text-[17px] font-bold tracking-[-0.02em] text-ink no-underline"
         >
           gw-lim
         </a>
         <div class="flex items-center gap-6">
           <a
             href="/blog"
-            class="text-ink-muted hover:text-ink text-[14px] font-medium transition-colors duration-150"
-            >Blog</a
+            class:list={[
+              'text-[14px] transition-colors duration-150',
+              isBlogActive ? 'font-semibold text-ink' : 'font-medium text-ink-muted hover:text-ink',
+            ]}>Blog</a
           >
           <a
             href="/resume"
-            class="text-ink-muted hover:text-ink text-[14px] font-medium transition-colors duration-150"
-            >Resume</a
+            class:list={[
+              'text-[14px] transition-colors duration-150',
+              isResumeActive
+                ? 'font-semibold text-ink'
+                : 'font-medium text-ink-muted hover:text-ink',
+            ]}>Resume</a
           >
           <span class="h-4 w-px bg-[var(--border-strong)]" aria-hidden="true"></span>
           <a
             href={githubUrl}
             target="_blank"
             rel="noopener"
-            class="text-ink-faint hover:text-ink flex items-center transition-colors duration-150"
+            class="flex items-center text-ink-faint transition-colors duration-150 hover:text-ink"
             aria-label="GitHub"
           >
             <GitHubIcon />
@@ -79,7 +93,7 @@ const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a9
             href={linkedinUrl}
             target="_blank"
             rel="noopener"
-            class="text-ink-faint hover:text-ink flex items-center transition-colors duration-150"
+            class="flex items-center text-ink-faint transition-colors duration-150 hover:text-ink"
             aria-label="LinkedIn"
           >
             <LinkedInIcon />
@@ -87,14 +101,14 @@ const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a9
         </div>
       </nav>
     </header>
-    <main class="max-w-content mx-auto w-full flex-1 px-6">
+    <main class="mx-auto w-full max-w-content flex-1 px-6">
       <slot />
     </main>
     <footer class="border-t border-[var(--border)]">
       <div
-        class="max-w-content mx-auto flex flex-wrap items-center justify-between gap-3 px-6 py-7"
+        class="mx-auto flex max-w-content flex-wrap items-center justify-between gap-3 px-6 py-7"
       >
-        <span class="text-ink-faint text-[13px]">
+        <span class="text-[13px] text-ink-faint">
           © {new Date().getFullYear()} gw-lim. All rights reserved.
         </span>
         <div class="flex items-center gap-4">
@@ -102,7 +116,7 @@ const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a9
             href={githubUrl}
             target="_blank"
             rel="noopener"
-            class="text-ink-faint hover:text-ink flex items-center gap-1.5 text-[12px] no-underline transition-colors duration-150"
+            class="flex items-center gap-1.5 text-[12px] text-ink-faint no-underline transition-colors duration-150 hover:text-ink"
           >
             <GitHubIcon /> GitHub
           </a>
@@ -110,7 +124,7 @@ const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a9
             href={linkedinUrl}
             target="_blank"
             rel="noopener"
-            class="text-ink-faint hover:text-ink flex items-center gap-1.5 text-[12px] no-underline transition-colors duration-150"
+            class="flex items-center gap-1.5 text-[12px] text-ink-faint no-underline transition-colors duration-150 hover:text-ink"
           >
             <LinkedInIcon /> LinkedIn
           </a>

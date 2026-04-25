@@ -1,8 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import PostCard from '../../../components/blog/PostCard.astro';
+import PostRow from '../../../components/blog/PostRow.astro';
 import { sortByDate, getAllTags } from '../../../utils/collection';
+import { calcReadTime } from '../../../utils/readTime';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => !data.draft);
@@ -18,16 +19,42 @@ export async function getStaticPaths() {
 
 const { tag } = Astro.params;
 const { posts } = Astro.props;
+const allSeries = await getCollection('series');
+const seriesById = new Map(allSeries.map((s) => [s.data.id, s.data.name]));
+
+const postsWithMeta = posts.map((post) => ({
+  post,
+  seriesName: post.data.seriesId ? seriesById.get(post.data.seriesId) : undefined,
+  readTime: calcReadTime(post.body),
+}));
 ---
 
 <BaseLayout
   title={`#${tag}`}
   description={`'${tag}' 태그가 달린 포스트 ${posts.length}개를 모았습니다.`}
 >
-  <div class="mb-2 flex items-center gap-2">
-    <a href="/blog" class="text-sm text-gray-400 hover:text-gray-600">← Blog</a>
-  </div>
-  <h1 class="mb-2 text-3xl font-bold">#{tag}</h1>
-  <p class="mb-8 text-sm text-gray-400">{posts.length}개의 포스트</p>
-  {posts.map((post) => <PostCard post={post} />)}
+  <section class="fade-in pb-10 pt-[52px]">
+    <a
+      href="/blog"
+      class="mb-3 inline-block text-[13px] text-ink-faint transition-colors duration-150 hover:text-ink"
+    >
+      ← Blog
+    </a>
+    <h1
+      class="mb-1.5 text-[clamp(28px,5vw,38px)] font-extrabold leading-[1.15] tracking-[-0.03em] text-ink"
+    >
+      #{tag}
+    </h1>
+    <p class="text-[14px] text-ink-faint">{posts.length}개의 포스트</p>
+  </section>
+
+  <div class="h-px bg-ink-border"></div>
+
+  <section class="fade-in pb-[60px] pt-11">
+    {
+      postsWithMeta.map(({ post, seriesName, readTime }) => (
+        <PostRow post={post} seriesName={seriesName} readTime={readTime} />
+      ))
+    }
+  </section>
 </BaseLayout>
