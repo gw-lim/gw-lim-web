@@ -44,6 +44,16 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
               <span class="contact-value">geonulim@gmail.com</span>
             </div>
             <div class="contact-row">
+              <span class="contact-label">Education</span>
+              <span class="contact-value">고려대학교 서울캠퍼스</span>
+            </div>
+            <div class="contact-row">
+              <span class="contact-label">Blog</span>
+              <a href="https://gw-lim.com" target="_blank" rel="noopener" class="contact-value"
+                >gw-lim.com</a
+              >
+            </div>
+            <div class="contact-row">
               <span class="contact-label">Location</span>
               <span class="contact-value">Seoul, Korea</span>
             </div>
@@ -55,11 +65,11 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
       </header>
 
       <p class="about-summary">
-        저는 소프트웨어 엔지니어 임건우입니다. <strong>도메인 주도 설계</strong>에 깊은 관심을
-        가지고 있으며, 비즈니스 요구의 본질을 모델로 옮겨 문제를 구조적으로 풀어내는 것을 즐깁니다.
-        스타트업의 <strong>초기 창업 멤버</strong>로 합류하여 백엔드부터 웹·앱·어드민까지 서비스 전
-        영역을 구축했고, <strong>6만+ 유저와 10억+ 원의 매출</strong>을 올리는데 기여했습니다. 운영
-        중인 핵심 도메인을 무중단으로 점진 분리하고 3계층 테스트 인프라를 구축하며,
+        저는 소프트웨어 엔지니어 임건우입니다. 스타트업의 <strong>초기 창업 멤버</strong>로 합류하여
+        백엔드부터 웹·앱·어드민까지 서비스 전 영역을 구축했고, <strong
+          >6만+ 유저와 10억+ 원의 매출</strong
+        >을 올리는데 기여했습니다. 운영 중인 핵심 도메인을 무중단으로 점진 분리하고 3계층 테스트
+        인프라를 구축하며,
         <strong>비즈니스 가치와 코드 품질</strong>을 함께 끌어올리는 일에 주력하고 있습니다.
       </p>
 
@@ -214,7 +224,7 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
 
   @media (min-width: 640px) {
     .contact-grid {
-      grid-template-columns: repeat(4, minmax(0, auto));
+      grid-template-columns: repeat(3, minmax(0, auto));
       gap: 0.5rem 2.5rem;
     }
   }
