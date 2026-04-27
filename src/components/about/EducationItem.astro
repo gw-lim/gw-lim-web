@@ -1,0 +1,169 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  item: CollectionEntry<'education'>;
+}
+
+const { item } = Astro.props;
+const { school, major, degree, startedAt, endedAt, gpa, narrative, achievements } = item.data;
+const period = endedAt ? `${startedAt} – ${endedAt}` : `${startedAt} – Present`;
+
+const escapeHtml = (s: string) =>
+  s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+
+const renderNarrative = (s: string) =>
+  escapeHtml(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+---
+
+<div class="edu-entry">
+  <div class="edu-grid">
+    <div class="edu-meta">
+      <h3 class="edu-school">{school}</h3>
+      <div class="edu-degree-row">
+        <span class="edu-degree">{degree}</span>
+        <span class="edu-sep">|</span>
+        <span>{major}</span>
+      </div>
+      {gpa && <p class="edu-gpa">{gpa}</p>}
+      <p class="edu-period">{period}</p>
+    </div>
+    <div class="edu-body">
+      {narrative && <p class="edu-narrative" set:html={renderNarrative(narrative)} />}
+      {
+        achievements.length > 0 && (
+          <div>
+            <p class="edu-achievements-title">주요 활동 및 성과</p>
+            <ul class="edu-achievements-list">
+              {achievements.map((line) => (
+                <li>
+                  <span class="edu-bullet">•</span>
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .edu-entry + .edu-entry {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .edu-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .edu-grid {
+      grid-template-columns: 200px 1fr;
+      gap: 2rem;
+    }
+  }
+
+  .edu-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .edu-school {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #1d1d1f;
+  }
+
+  .edu-degree-row {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    color: #2d2d2d;
+  }
+
+  .edu-degree {
+    font-weight: 500;
+  }
+
+  .edu-sep {
+    color: rgba(45, 45, 45, 0.6);
+    font-size: 0.65rem;
+  }
+
+  .edu-gpa {
+    margin: 0;
+    font-size: 0.72rem;
+    color: rgba(45, 45, 45, 0.6);
+  }
+
+  .edu-period {
+    margin: 0;
+    font-size: 0.72rem;
+    color: rgba(45, 45, 45, 0.6);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .edu-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .edu-narrative {
+    margin: 0;
+    font-size: 0.825rem;
+    line-height: 1.7;
+    color: #2d2d2d;
+  }
+
+  .edu-narrative :global(strong) {
+    color: #1d1d1f;
+    font-weight: 600;
+  }
+
+  .edu-achievements-title {
+    margin: 0 0 0.375rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(45, 45, 45, 0.6);
+  }
+
+  .edu-achievements-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .edu-achievements-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.375rem;
+    font-size: 0.775rem;
+    line-height: 1.5;
+    color: #2d2d2d;
+  }
+
+  .edu-bullet {
+    color: rgba(45, 45, 45, 0.6);
+    flex-shrink: 0;
+    margin-top: 0.05em;
+  }
+</style>

@@ -1,10 +1,36 @@
 [
   {
-    "id": 1,
-    "school": "Sample University",
+    "id": 3,
+    "school": "고려대학교",
+    "major": "컴퓨터학과",
+    "degree": "학사(예정)",
+    "startedAt": "Mar 2021",
+    "endedAt": null,
+    "gpa": "4 / 4.5",
+    "narrative": "컴퓨터과학 이론을 기반으로 시스템·알고리즘·소프트웨어 설계 전반을 학습하며, 동아리·창업 경진대회·산학 캡스톤 등 **학습한 내용을 실제 프로덕트로 검증**하는 활동에 꾸준히 참여해왔습니다.",
+    "achievements": [
+      "창업 경진대회 STARTUP EXPRESS 츄츄기업가상 수상 (핸디버스)",
+      "산학 캡스톤 디자인 프로젝트 우수상 수상"
+    ]
+  },
+  {
+    "id": 2,
+    "school": "University of California, Davis",
     "major": "Computer Science",
-    "degree": "학사",
-    "startedAt": "2021-03",
-    "endedAt": "2026-02"
+    "degree": "교환학생",
+    "startedAt": "Jan 2023",
+    "endedAt": "Jul 2023",
+    "narrative": "학부 과정 중 한 학기 교환 학생으로 참여하여 다문화 캠퍼스 환경에서 다양한 배경의 학생들과 함께 팀 프로젝트를 수행하며 글로벌 소통 능력을 다졌습니다.",
+    "achievements": []
+  },
+  {
+    "id": 1,
+    "school": "코드잇",
+    "major": "프론트엔드 스프린트 1기",
+    "degree": "수료",
+    "startedAt": "Sep 2023",
+    "endedAt": "Mar 2024",
+    "narrative": "체계적인 코드 리뷰 문화와 페어 프로그래밍 환경을 통해 협업 워크플로우를 익혔습니다.",
+    "achievements": []
   }
 ]

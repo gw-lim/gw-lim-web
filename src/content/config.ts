@@ -59,6 +59,9 @@ const education = defineCollection({
     degree: z.string(),
     startedAt: z.string(),
     endedAt: z.string().nullable(),
+    gpa: z.string().optional(),
+    narrative: z.string().optional(),
+    achievements: z.array(z.string()).default([]),
   }),
 });
 

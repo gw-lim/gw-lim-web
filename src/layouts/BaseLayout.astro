@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
 import GitHubIcon from '../components/icons/GitHubIcon.astro';
-import LinkedInIcon from '../components/icons/LinkedInIcon.astro';
 
 interface Props {
   title?: string;
@@ -21,10 +20,9 @@ const ogImage = thumbnail ?? '/og-image.png';
 
 const pathname = Astro.url.pathname;
 const isBlogActive = pathname === '/blog' || pathname.startsWith('/blog/');
-const isResumeActive = pathname === '/resume' || pathname.startsWith('/resume/');
+const isAboutActive = pathname === '/about' || pathname.startsWith('/about/');
 
 const githubUrl = 'https://github.com/gw-lim';
-const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a994972a3/';
 ---
 
 <!doctype html>
@@ -71,13 +69,13 @@ const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a9
             ]}>Blog</a
           >
           <a
-            href="/resume"
+            href="/about"
             class:list={[
               'text-[14px] transition-colors duration-150',
-              isResumeActive
+              isAboutActive
                 ? 'text-ink font-semibold'
                 : 'text-ink-muted hover:text-ink font-medium',
-            ]}>Resume</a
+            ]}>About</a
           >
           <span class="h-4 w-px bg-[var(--border-strong)]" aria-hidden="true"></span>
           <a
@@ -88,15 +86,6 @@ const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a9
             aria-label="GitHub"
           >
             <GitHubIcon />
-          </a>
-          <a
-            href={linkedinUrl}
-            target="_blank"
-            rel="noopener"
-            class="text-ink-faint hover:text-ink flex items-center transition-colors duration-150"
-            aria-label="LinkedIn"
-          >
-            <LinkedInIcon />
           </a>
         </div>
       </nav>
@@ -120,14 +109,6 @@ const linkedinUrl = 'https://www.linkedin.com/in/%EA%B1%B4%EC%9A%B0-%EC%9E%84-a9
             class="text-ink-faint hover:text-ink flex items-center gap-1.5 text-[12px] no-underline transition-colors duration-150"
           >
             <GitHubIcon /> GitHub
-          </a>
-          <a
-            href={linkedinUrl}
-            target="_blank"
-            rel="noopener"
-            class="text-ink-faint hover:text-ink flex items-center gap-1.5 text-[12px] no-underline transition-colors duration-150"
-          >
-            <LinkedInIcon /> LinkedIn
           </a>
         </div>
       </div>

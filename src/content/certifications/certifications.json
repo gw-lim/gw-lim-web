@@ -1,9 +1,23 @@
 [
   {
+    "id": 3,
+    "name": "TOEFL 114",
+    "issuer": "ETS",
+    "issuedAt": "Feb 2020",
+    "expiresAt": null
+  },
+  {
+    "id": 2,
+    "name": "SAT 1480",
+    "issuer": "College Board",
+    "issuedAt": "Oct 2019",
+    "expiresAt": null
+  },
+  {
     "id": 1,
-    "name": "정보처리기사",
-    "issuer": "한국산업인력공단",
-    "issuedAt": "2023-06",
+    "name": "HSK 5급",
+    "issuer": "Hanban",
+    "issuedAt": "Jul 2019",
     "expiresAt": null
   }
 ]
