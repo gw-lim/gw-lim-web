@@ -19,9 +19,6 @@ const items = [
 {
   items.length > 0 && (
     <div class="border-ink-border flex flex-col gap-3 border-t pb-16 pt-9">
-      <div class="text-ink-faint mb-1 font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
-        이 시리즈의 다른 글
-      </div>
       {items.map((item) => (
         <a
           href={`/blog/${item.post.id}`}

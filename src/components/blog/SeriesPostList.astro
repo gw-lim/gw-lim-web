@@ -16,12 +16,7 @@ const showHeader = currentPostId !== undefined;
     showHeader && (
       <div class="mb-4 border-b border-gray-100 pb-3">
         <p class="mb-1 text-xs uppercase tracking-wide text-gray-400">시리즈</p>
-        <a
-          href={`/blog/series/${series.data.id}`}
-          class="text-lg font-semibold hover:text-blue-600"
-        >
-          {series.data.name}
-        </a>
+        <div class="text-lg font-semibold">{series.data.name}</div>
         {series.data.description && (
           <p class="mt-1 text-sm text-gray-500">{series.data.description}</p>
         )}
@@ -45,7 +40,7 @@ const showHeader = currentPostId !== undefined;
               ) : (
                 <a
                   href={`/blog/${post.id}`}
-                  class="block rounded px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-blue-600"
+                  class="block rounded px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-800"
                 >
                   {label}
                 </a>
