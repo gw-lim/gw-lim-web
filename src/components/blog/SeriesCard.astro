@@ -27,74 +27,70 @@ const seriesName = series.data.name.trim();
 >
   <button
     type="button"
-    class="series-toggle block w-full cursor-pointer border-0 bg-transparent px-[26px] py-6 text-left transition-colors duration-200"
+    class="series-toggle relative block w-full cursor-pointer border-0 bg-transparent px-[26px] py-6 text-left transition-colors duration-200"
     aria-expanded="false"
     aria-controls={`series-body-${series.data.id}`}
   >
-    <div class="flex items-start justify-between gap-4">
-      <div class="min-w-0 flex-1">
-        <div class="mb-2.5">
-          <span
-            class="border-ink-border text-ink-faint inline-block rounded border px-2 py-0.5 font-mono text-[10px] font-medium tracking-[0.04em]"
-          >
-            시리즈 · {postCount}편
-          </span>
-        </div>
-        <h2
-          class="text-ink mb-2 text-[18px] font-bold leading-[1.4] tracking-[-0.025em] [text-wrap:pretty]"
-        >
-          {seriesName}
-        </h2>
-        {
-          series.data.description && (
-            <p class="text-ink-muted mb-3.5 text-[13px] leading-[1.7] [text-wrap:pretty]">
-              {series.data.description}
-            </p>
-          )
-        }
-        {
-          tags.length > 0 && (
-            <div class="mb-3.5 flex flex-wrap gap-[5px]">
-              {tags.map((tag) => (
-                <span class="bg-tag-bg text-tag-text inline-block whitespace-nowrap rounded px-2 py-0.5 text-[11px] font-medium tracking-[0.01em]">
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          )
-        }
-        <div class="flex items-center gap-2">
-          {
-            latestDate && (
-              <>
-                <span class="text-ink-faint text-[11.5px]">최신 {latestDate}</span>
-                <span class="text-ink-border-strong text-[11.5px]">·</span>
-              </>
-            )
-          }
-          <span class="text-ink-faint text-[11.5px]">총 {totalReadTimeMinutes}분 읽기</span>
-        </div>
-      </div>
-      <span
-        aria-hidden="true"
-        class="series-chevron border-ink-border bg-bg mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md border transition-[background-color,border-color] duration-200"
+    <span
+      aria-hidden="true"
+      class="series-chevron border-ink-border bg-bg absolute right-[26px] top-[26px] flex h-7 w-7 items-center justify-center rounded-md border transition-[background-color,border-color] duration-200"
+    >
+      <svg
+        width="12"
+        height="12"
+        viewBox="0 0 12 12"
+        fill="none"
+        class="series-chevron-icon transition-transform duration-[250ms]"
       >
-        <svg
-          width="12"
-          height="12"
-          viewBox="0 0 12 12"
-          fill="none"
-          class="series-chevron-icon transition-transform duration-[250ms]"
-        >
-          <path
-            d="M2 4L6 8L10 4"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="series-chevron-stroke text-ink-faint"></path>
-        </svg>
+        <path
+          d="M2 4L6 8L10 4"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="series-chevron-stroke text-ink-faint"></path>
+      </svg>
+    </span>
+    <div class="mb-2.5">
+      <span
+        class="border-ink-border text-ink-faint inline-block rounded border px-2 py-0.5 font-mono text-[10px] font-medium tracking-[0.04em]"
+      >
+        시리즈 · {postCount}편
       </span>
+    </div>
+    <h2
+      class="text-ink mb-2 text-[18px] font-bold leading-[1.4] tracking-[-0.025em] [text-wrap:pretty]"
+    >
+      {seriesName}
+    </h2>
+    {
+      series.data.description && (
+        <p class="text-ink-muted mb-3.5 text-[13px] leading-[1.7] [text-wrap:pretty]">
+          {series.data.description}
+        </p>
+      )
+    }
+    {
+      tags.length > 0 && (
+        <div class="mb-3.5 flex flex-wrap gap-[5px]">
+          {tags.map((tag) => (
+            <span class="bg-tag-bg text-tag-text inline-block whitespace-nowrap rounded px-2 py-0.5 text-[11px] font-medium tracking-[0.01em]">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )
+    }
+    <div class="flex items-center gap-2">
+      {
+        latestDate && (
+          <>
+            <span class="text-ink-faint text-[11.5px]">최신 {latestDate}</span>
+            <span class="text-ink-border-strong text-[11.5px]">·</span>
+          </>
+        )
+      }
+      <span class="text-ink-faint text-[11.5px]">총 {totalReadTimeMinutes}분 읽기</span>
     </div>
   </button>
 
