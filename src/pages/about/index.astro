@@ -17,6 +17,24 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
 
 <BaseLayout title="About" description="Software Engineer gw-lim입니다.">
   <article class="about-article">
+    <!-- <button type="button" class="pdf-button" data-pdf-save aria-label="이 페이지를 PDF로 저장">
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+      </svg>
+      <span>PDF 저장</span>
+    </button> -->
     <div class="about-container">
       <header class="about-header">
         <div class="about-header-info">
@@ -25,6 +43,24 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
             <span class="about-korean">임건우</span>
           </div>
           <p class="about-role">Software Engineer</p>
+          <div class="contact-row">
+            <span class="contact-label">Blog</span>
+            <a href="https://gw-lim.com" target="_blank" rel="noopener" class="contact-value"
+              >gw-lim.com</a
+            >
+          </div>
+          <div class="contact-row">
+            <span class="contact-label">Phone</span>
+            <span class="contact-value">010-7311-4513</span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-label">Email</span>
+            <span class="contact-value">geonulim@gmail.com</span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-label">Education</span>
+            <span class="contact-value">고려대학교 서울캠퍼스</span>
+          </div>
           <div class="contact-grid">
             <div class="contact-row">
               <span class="contact-label">GitHub</span>
@@ -33,24 +69,6 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
                 target="_blank"
                 rel="noopener"
                 class="contact-value">github.com/gw-lim</a
-              >
-            </div>
-            <div class="contact-row">
-              <span class="contact-label">Phone</span>
-              <span class="contact-value">010-7311-4513</span>
-            </div>
-            <div class="contact-row">
-              <span class="contact-label">Email</span>
-              <span class="contact-value">geonulim@gmail.com</span>
-            </div>
-            <div class="contact-row">
-              <span class="contact-label">Education</span>
-              <span class="contact-value">고려대학교 서울캠퍼스</span>
-            </div>
-            <div class="contact-row">
-              <span class="contact-label">Blog</span>
-              <a href="https://gw-lim.com" target="_blank" rel="noopener" class="contact-value"
-                >gw-lim.com</a
               >
             </div>
             <div class="contact-row">
@@ -136,11 +154,41 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
   </article>
 </BaseLayout>
 
+<script>
+  document.querySelector('[data-pdf-save]')?.addEventListener('click', () => window.print());
+</script>
+
 <style is:global>
   body:has(.about-article) main {
     max-width: none;
     padding-left: 0;
     padding-right: 0;
+  }
+
+  @media print {
+    @page {
+      size: A4;
+      margin: 14mm 12mm;
+    }
+
+    html,
+    body {
+      background: #ffffff !important;
+    }
+
+    body:has(.about-article) > header,
+    body:has(.about-article) > footer {
+      display: none !important;
+    }
+
+    body:has(.about-article) main {
+      flex: none !important;
+    }
+
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
   }
 </style>
 
@@ -161,6 +209,43 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
       system-ui,
       -apple-system,
       sans-serif;
+  }
+
+  /* ─── PDF BUTTON ─── */
+  .pdf-button {
+    position: fixed;
+    top: 4.5rem;
+    right: 1.5rem;
+    z-index: 40;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.85rem;
+    background: #ffffff;
+    color: #1d1d1f;
+    border: 1px solid #1d1d1f;
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    transition:
+      background 0.15s ease,
+      color 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .pdf-button:hover {
+    background: #1d1d1f;
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  .pdf-button:focus-visible {
+    outline: 2px solid #1d1d1f;
+    outline-offset: 2px;
   }
 
   .about-container {
@@ -340,6 +425,87 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
   @media (min-width: 640px) {
     .cert-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* ─── PRINT ─── */
+  @media print {
+    .pdf-button {
+      display: none !important;
+    }
+
+    .about-article {
+      margin-bottom: 0;
+      color: #1a1a1a;
+    }
+
+    .about-container {
+      max-width: none;
+      padding: 0;
+    }
+
+    .about-header {
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      break-inside: avoid;
+    }
+
+    .about-name {
+      font-size: 1.5rem;
+    }
+
+    .about-korean {
+      font-size: 0.9rem;
+    }
+
+    .about-role {
+      margin: 0 0 1rem;
+      font-size: 0.8rem;
+    }
+
+    .contact-grid {
+      grid-template-columns: repeat(3, minmax(0, auto));
+      gap: 0.4rem 2rem;
+    }
+
+    .contact-label {
+      font-size: 0.6rem;
+    }
+
+    .contact-value {
+      font-size: 0.75rem;
+    }
+
+    .profile-photo {
+      width: 80px;
+    }
+
+    .about-summary {
+      margin: 0 0 1.75rem;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      break-inside: avoid;
+    }
+
+    .about-section + .about-section {
+      margin-top: 0;
+      padding-top: 10mm;
+    }
+
+    .section-head {
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      break-after: avoid;
+    }
+
+    .section-head h2 {
+      font-size: 1rem;
+    }
+
+    .about-section-body > *,
+    .cert-grid > * {
+      break-inside: avoid;
     }
   }
 </style>
