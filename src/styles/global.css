@@ -42,3 +42,16 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
+
+.prose figure {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.prose figcaption {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-faint);
+}

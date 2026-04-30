@@ -5,7 +5,7 @@ createdAt: '2026-04-24 00:00:00'
 updatedAt: '2026-04-24 00:00:00'
 tags: ['포인트', '결제', '동시성 제어', '멱등성']
 thumbnail: '/images/point-domain-design/pessimistic_lock_sequence.svg'
-pinned: false
+pinned: true
 draft: false
 seriesId: 'startup-point-domain'
 ---
@@ -40,10 +40,10 @@ seriesId: 'startup-point-domain'
 
 원장 구조을 채택한 뒤 설계는 아래 4개의 엔티티로 구현하였습니다.
 
-- `PointWallet` — 사용자당 1개, 현재 스냅샷
-- `PointLedger` — 모든 거래의 불변 기록
-- `PointLot` — 한 번의 적립 건, FIFO 배분의 최소 단위
-- `PointLedgerAllocation` — 거래와 Lot의 M:N 매핑
+- `PointWallet`: 사용자당 1개, 현재 스냅샷
+- `PointLedger`: 모든 거래의 불변 기록
+- `PointLot`: 한 번의 적립 건, FIFO 배분의 최소 단위
+- `PointLedgerAllocation`: 거래와 Lot의 M:N 매핑
 
 ### 엔티티별 역할
 
@@ -95,7 +95,12 @@ Wallet에 `debtPoints` 컬럼을 별도로 두고, 이 값은 항상 0 이상을
 
 이때 **상계 자체를 별도의 ledger entry로 독립 기록**하는 것이 중요합니다. 즉, 단일 적립 이벤트가 두 개의 ledger entry(빚 상계, 포인트 적립)를 낳는 경우가 생깁니다.
 
-![Debt Points 수명 주기 시퀀스 다이어그램](/images/point-domain-design/debt_settlement_sequence.svg)
+<figure class="max-w-[85%]">
+  <img
+    src="/images/point-domain-design/debt_settlement_sequence.svg"
+    alt="Debt Points 수명 주기 시퀀스 다이어그램"
+  />
+</figure>
 
 ---
 

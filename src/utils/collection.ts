@@ -12,7 +12,7 @@ export const getAllTags = <T extends { data: { tags: string[] } }>(items: T[]): 
 };
 
 export const getSeriesPosts = <
-  T extends { data: { seriesId?: string; createdAt: string } },
+  T extends { data: { seriesId?: string | null; createdAt: string } },
 >(
   items: T[],
   seriesId: string,

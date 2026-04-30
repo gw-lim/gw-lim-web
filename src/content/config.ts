@@ -9,7 +9,7 @@ const posts = defineCollection({
     createdAt: z.string(),
     updatedAt: z.string(),
     tags: z.array(z.string()).default([]),
-    seriesId: z.string().optional(),
+    seriesId: z.string().nullable().optional(),
     thumbnail: z.string(),
     pinned: z.boolean().default(false),
     draft: z.boolean().default(false),

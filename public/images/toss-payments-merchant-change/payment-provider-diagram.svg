@@ -1,0 +1,90 @@
+<svg viewBox="0 0 780 754" xmlns="http://www.w3.org/2000/svg" font-family="'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif">
+
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#6B7280"/>
+    </marker>
+    <marker id="arrow-accent" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#3B4FC4"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="780" height="754" fill="#FFFFFF" rx="4"/>
+
+  <!-- 결제 도메인 영역 컨테이너 -->
+  <rect x="20" y="20" width="740" height="714" rx="10" fill="none" stroke="#B0B8C4" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="36" y="44" font-size="11" fill="#9097A3" font-weight="500" letter-spacing="0.5">결제 도메인 영역 (PG 비종속)</text>
+
+  <!-- PaymentService 박스 -->
+  <rect x="290" y="58" width="200" height="52" rx="8" fill="#FFFFFF" stroke="#C4C9D4" stroke-width="1.5"/>
+  <text x="390" y="80" font-size="13" font-weight="600" fill="#1E2530" text-anchor="middle">PaymentService</text>
+  <text x="390" y="97" font-size="9.5" fill="#9097A3" text-anchor="middle">① 결제 승인 요청</text>
+
+  <!-- PaymentService → 경계 화살표 -->
+  <line x1="390" y1="110" x2="390" y2="162" stroke="#9097A3" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- PaymentProvider 인터페이스 경계 박스 -->
+  <rect x="130" y="162" width="520" height="52" rx="8" fill="#E8ECFA" stroke="#7C8FD4" stroke-width="1.8"/>
+  <text x="390" y="184" font-size="13" font-weight="700" fill="#3B4FC4" text-anchor="middle">PaymentProvider 인터페이스</text>
+  <text x="390" y="202" font-size="9.5" fill="#6B7EC0" text-anchor="middle">반환값에 RefundExecutionCapability 포함</text>
+
+  <!-- PG-종속 영역 구분선 -->
+  <line x1="40" y1="240" x2="740" y2="240" stroke="#C8CDD6" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="46" y="254" font-size="10" fill="#A0A8B4" letter-spacing="0.3">PG-종속 영역 ↓</text>
+
+  <!-- 경계 → TossProvider 화살표 -->
+  <line x1="390" y1="214" x2="390" y2="270" stroke="#9097A3" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- TossPaymentProvider 큰 박스 -->
+  <rect x="78" y="270" width="622" height="330" rx="10" fill="#F5F5F5" stroke="#B0B8C4" stroke-width="1.5"/>
+  <text x="390" y="294" font-size="13" font-weight="700" fill="#374151" text-anchor="middle">TossPaymentProvider</text>
+
+  <!-- mId 박스 -->
+  <rect x="148" y="318" width="130" height="46" rx="6" fill="#EBEBEB" stroke="#B0B8C4" stroke-width="1.2"/>
+  <text x="213" y="337" font-size="12" font-weight="600" fill="#374151" text-anchor="middle">mId</text>
+  <text x="213" y="353" font-size="9" fill="#9097A3" text-anchor="middle">결제 승인 응답값</text>
+
+  <!-- + 기호 -->
+  <text x="295" y="345" font-size="14" fill="#9097A3" text-anchor="middle" font-weight="600">+</text>
+
+  <!-- env 박스 -->
+  <rect x="312" y="318" width="160" height="46" rx="6" fill="#EBEBEB" stroke="#B0B8C4" stroke-width="1.2"/>
+  <text x="392" y="337" font-size="11.5" font-weight="600" fill="#374151" text-anchor="middle">TOSS_MERCHANT_ID</text>
+  <text x="392" y="353" font-size="9" fill="#9097A3" text-anchor="middle">env (신상점 mId)</text>
+
+  <!-- mId/env → MerchantType 화살표 -->
+  <line x1="392" y1="364" x2="392" y2="394" stroke="#9097A3" stroke-width="1.3" marker-end="url(#arrow)"/>
+  <text x="412" y="382" font-size="9.5" fill="#9097A3">② 분류</text>
+
+  <!-- TossPaymentMerchantType 박스 -->
+  <rect x="222" y="394" width="336" height="64" rx="6" fill="#EBEBEB" stroke="#B0B8C4" stroke-width="1.3"/>
+  <text x="390" y="415" font-size="12" font-weight="700" fill="#374151" text-anchor="middle">TossPaymentMerchantType</text>
+  <text x="390" y="431" font-size="9.5" fill="#9097A3" text-anchor="middle">CURRENT (신상점)  ·  LEGACY (구상점)</text>
+  <text x="390" y="446" font-size="9" fill="#A8B0BC" text-anchor="middle" font-style="italic">PG 종속 어휘 — 박스 밖으로 나가지 않음</text>
+
+  <!-- MerchantType → RefundExecution 화살표 -->
+  <line x1="390" y1="458" x2="390" y2="488" stroke="#9097A3" stroke-width="1.3" marker-end="url(#arrow)"/>
+  <text x="410" y="476" font-size="9.5" fill="#9097A3">③ 번역</text>
+
+  <!-- RefundExecutionCapability (TossProvider 내부) 박스 -->
+  <rect x="158" y="488" width="464" height="68" rx="6" fill="#E8ECFA" stroke="#7C8FD4" stroke-width="1.5"/>
+  <text x="390" y="510" font-size="12" font-weight="700" fill="#3B4FC4" text-anchor="middle">RefundExecutionCapability</text>
+  <text x="390" y="525" font-size="9.5" fill="#5B6EC4" text-anchor="middle">PG 어휘 → 도메인 어휘로 번역되는 지점</text>
+  <text x="302" y="544" font-size="9.5" fill="#6B7EC0" text-anchor="middle">CURRENT →</text>
+  <text x="358" y="544" font-size="9.5" fill="#3B4FC4" font-weight="700" text-anchor="middle">AUTO</text>
+  <text x="422" y="544" font-size="9.5" fill="#6B7EC0" text-anchor="middle">LEGACY →</text>
+  <text x="476" y="544" font-size="9.5" fill="#3B4FC4" font-weight="700" text-anchor="middle">MANUAL</text>
+
+  <!-- ④ 경계를 넘는 화살표 (실선) -->
+  <line x1="390" y1="600" x2="390" y2="644" stroke="#3B4FC4" stroke-width="2" marker-end="url(#arrow-accent)"/>
+  <text x="412" y="616" font-size="9.5" fill="#3B4FC4" font-weight="600">④ 경계를 넘는 값</text>
+  <text x="412" y="631" font-size="9" fill="#5B6EC4">RefundExecutionCapability 뿐</text>
+
+  <!-- Payment 엔티티 박스 -->
+  <rect x="240" y="644" width="300" height="70" rx="8" fill="#FFFFFF" stroke="#C4C9D4" stroke-width="1.5"/>
+  <text x="390" y="666" font-size="13" font-weight="600" fill="#1E2530" text-anchor="middle">Payment 엔티티</text>
+  <text x="390" y="682" font-size="9.5" fill="#9097A3" text-anchor="middle" font-family="'Menlo', 'Consolas', monospace">refundExecutionCapability</text>
+  <text x="390" y="697" font-size="8.5" fill="#A0A8B4" text-anchor="middle">UNKNOWN · AUTO · MANUAL · NOT_APPLICABLE</text>
+
+</svg>

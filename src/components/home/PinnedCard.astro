@@ -14,12 +14,12 @@ const readTime = calcReadTime(post.body);
 
 <a href={`/blog/${post.id}`} class="pinned-card group block">
   <article
-    class="overflow-hidden rounded-[10px] border border-[var(--border)] bg-bg shadow-[0_1px_4px_rgba(0,0,0,0.04)] transition-[transform,box-shadow] duration-200 ease-out group-hover:-translate-y-1 group-hover:shadow-[0_12px_32px_rgba(0,0,0,0.09)]"
+    class="overflow-hidden rounded-[10px] border border-[var(--border)] bg-bg shadow-[0_1px_4px_rgba(0,0,0,0.04)] transition-[transform,box-shadow] duration-200 ease-out group-hover:-translate-y-[3px] group-hover:shadow-[0_8px_22px_rgba(0,0,0,0.063)]"
   >
     {
       showImg && (
         <div class="relative overflow-hidden">
-          <div class="transition-transform duration-[400ms] ease-out group-hover:scale-[1.03]">
+          <div class="transition-transform duration-[400ms] ease-out group-hover:scale-[1.021]">
             <img
               src={post.data.thumbnail}
               alt={post.data.title}

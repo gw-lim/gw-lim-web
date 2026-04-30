@@ -8,12 +8,12 @@ import { sortByDate } from '../utils/collection';
 const allPosts = await getCollection('posts', ({ data }) => !data.draft);
 const sorted = sortByDate(allPosts);
 const pinnedPosts = sorted.filter((p) => p.data.pinned);
-const recentPosts = sorted.filter((p) => !p.data.pinned).slice(0, 3);
+const recentPosts = sorted.slice(0, 5);
 ---
 
 <BaseLayout description="Software Engineer gw-lim의 개발 블로그입니다.">
   {/* HERO */}
-  <section class="fade-in pb-16 pt-[72px]">
+  <section class="fade-in pb-14 pt-[68px]">
     <div class="mb-2">
       <span
         class="text-ink-faint inline-block whitespace-nowrap rounded-[4px] border border-[var(--border)] px-[9px] py-[2px] font-mono text-[12px] font-medium tracking-[0.04em]"
@@ -43,7 +43,7 @@ const recentPosts = sorted.filter((p) => !p.data.pinned).slice(0, 3);
   {
     pinnedPosts.length > 0 && (
       <>
-        <section class="fade-in pt-[52px]">
+        <section class="fade-in pt-[44px]">
           <div class="mb-6 flex items-baseline justify-between">
             <h2 class="text-ink whitespace-nowrap text-[19px] font-bold tracking-[-0.02em]">
               눈여겨볼 글

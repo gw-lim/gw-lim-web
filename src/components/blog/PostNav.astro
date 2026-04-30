@@ -18,21 +18,25 @@ const items = [
 
 {
   items.length > 0 && (
-    <div class="border-ink-border flex flex-col gap-3 border-t pb-16 pt-9">
+    <div class="border-ink-border mt-12 flex flex-col gap-3 border-t pb-2 pt-9 sm:flex-row">
       {items.map((item) => (
         <a
           href={`/blog/${item.post.id}`}
-          class="border-ink-border text-ink hover:border-ink-border-strong flex items-center justify-between gap-4 rounded-lg border px-[18px] py-4 no-underline transition-[border-color,box-shadow] duration-150 hover:shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
+          class="border-ink-border text-ink hover:border-ink-border-strong flex flex-1 items-start justify-between gap-4 rounded-lg border px-[18px] py-4 no-underline transition-[border-color,box-shadow] duration-150 hover:shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
         >
           {item.align === 'left' && (
-            <span class="text-ink-faint flex-shrink-0 text-lg">{item.dir}</span>
+            <span class="text-ink-faint flex-shrink-0 self-center text-lg">{item.dir}</span>
           )}
-          <div class={item.align === 'right' ? 'text-left' : 'text-right'}>
+          <div
+            class={`min-w-0 flex-1 ${item.align === 'right' ? 'text-left' : 'text-right'}`}
+          >
             <div class="text-ink-faint mb-1 font-mono text-[11px]">{item.label}</div>
-            <div class="text-[14px] font-semibold tracking-[-0.01em]">{item.post.data.title}</div>
+            <div class="line-clamp-2 text-[14px] font-semibold leading-[1.4] tracking-[-0.01em]">
+              {item.post.data.title}
+            </div>
           </div>
           {item.align === 'right' && (
-            <span class="text-ink-faint flex-shrink-0 text-lg">{item.dir}</span>
+            <span class="text-ink-faint flex-shrink-0 self-center text-lg">{item.dir}</span>
           )}
         </a>
       ))}
