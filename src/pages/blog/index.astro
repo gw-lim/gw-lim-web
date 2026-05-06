@@ -7,10 +7,7 @@ import { calcReadTime } from '../../utils/readTime';
 
 const allPosts = await getCollection('posts', ({ data }) => !data.draft);
 const allSeries = await getCollection('series');
-const sorted = sortByDate(allPosts);
-const pinned = sorted.filter((p) => p.data.pinned);
-const rest = sorted.filter((p) => !p.data.pinned);
-const posts = [...pinned, ...rest];
+const posts = sortByDate(allPosts);
 
 const tagCounts = new Map<string, number>();
 for (const post of posts) {
