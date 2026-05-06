@@ -47,7 +47,7 @@ const readTime = calcReadTime(post.body);
     {
       series && (
         <div class="mb-3.5">
-          <div class="border-ink-border text-ink-faint inline-block rounded border px-[9px] py-0.5 font-mono text-[11px] font-medium tracking-[0.04em] no-underline transition-colors duration-150">
+          <div class="inline-block rounded border border-ink-border px-[9px] py-0.5 font-mono text-[11px] font-medium tracking-[0.04em] text-ink-faint no-underline transition-colors duration-150">
             시리즈 · {series.data.name}
           </div>
         </div>
@@ -55,30 +55,30 @@ const readTime = calcReadTime(post.body);
     }
 
     <h1
-      class="text-ink mb-4 text-[clamp(24px,4vw,34px)] font-extrabold leading-[1.25] tracking-[-0.03em] [text-wrap:pretty]"
+      class="mb-4 break-keep text-[clamp(24px,4vw,34px)] font-extrabold leading-[1.25] tracking-[-0.03em] text-ink"
     >
       {post.data.title}
     </h1>
 
-    <p class="text-ink-muted mb-5 text-[15px] leading-[1.7] [text-wrap:pretty]">
+    <p class="mb-5 break-all text-[15px] leading-[1.7] text-ink-muted">
       {post.data.description}
     </p>
 
     <div class="mb-5 flex flex-wrap items-center gap-2.5">
-      <time datetime={post.data.createdAt} class="text-ink-faint text-[12.5px]">
+      <time datetime={post.data.createdAt} class="text-[12.5px] text-ink-faint">
         {formatDate(post.data.createdAt)}
       </time>
-      <span class="text-ink-border-strong text-[12.5px]">·</span>
-      <span class="text-ink-faint text-[12.5px]">약 {readTime} 읽기</span>
+      <span class="text-[12.5px] text-ink-border-strong">·</span>
+      <span class="text-[12.5px] text-ink-faint">약 {readTime} 읽기</span>
       {
         post.data.tags.length > 0 && (
           <>
-            <span class="text-ink-border-strong text-[12.5px]">·</span>
+            <span class="text-[12.5px] text-ink-border-strong">·</span>
             <div class="flex flex-wrap gap-1.5">
               {post.data.tags.map((tag) => (
                 <a
                   href={`/blog/tags/${encodeURIComponent(tag)}`}
-                  class="bg-tag-bg text-tag-text inline-block whitespace-nowrap rounded px-2 py-0.5 text-[11px] font-medium tracking-[0.01em] no-underline"
+                  class="inline-block whitespace-nowrap rounded bg-tag-bg px-2 py-0.5 text-[11px] font-medium tracking-[0.01em] text-tag-text no-underline"
                 >
                   #{tag}
                 </a>
@@ -104,7 +104,7 @@ const readTime = calcReadTime(post.body);
 
   <PostNav posts={allPosts} currentPostId={post.id} />
 
-  <section class="border-ink-border mt-16 border-t pb-8 pt-10">
+  <section class="mt-16 border-t border-ink-border pb-8 pt-10">
     <GiscusComments client:only="react" />
   </section>
 </BaseLayout>

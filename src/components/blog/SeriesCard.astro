@@ -22,7 +22,7 @@ const seriesName = series.data.name.trim();
 ---
 
 <article
-  class="series-card border-ink-border bg-bg hover:border-ink-border-strong relative overflow-hidden rounded-[10px] border shadow-[0_1px_4px_rgba(0,0,0,0.03)] transition-[box-shadow,border-color] duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.05)]"
+  class="series-card relative overflow-hidden rounded-[10px] border border-ink-border bg-bg shadow-[0_1px_4px_rgba(0,0,0,0.03)] transition-[box-shadow,border-color] duration-200 hover:border-ink-border-strong hover:shadow-[0_4px_16px_rgba(0,0,0,0.05)]"
   data-series-id={series.data.id}
 >
   <button
@@ -33,7 +33,7 @@ const seriesName = series.data.name.trim();
   >
     <span
       aria-hidden="true"
-      class="series-chevron border-ink-border bg-bg absolute right-[26px] top-[26px] flex h-7 w-7 items-center justify-center rounded-md border transition-[background-color,border-color] duration-200"
+      class="series-chevron absolute right-[26px] top-[26px] flex h-7 w-7 items-center justify-center rounded-md border border-ink-border bg-bg transition-[background-color,border-color] duration-200"
     >
       <svg
         width="12"
@@ -53,19 +53,17 @@ const seriesName = series.data.name.trim();
     </span>
     <div class="mb-2.5">
       <span
-        class="border-ink-border text-ink-faint inline-block rounded border px-2 py-0.5 font-mono text-[10px] font-medium tracking-[0.04em]"
+        class="inline-block rounded border border-ink-border px-2 py-0.5 font-mono text-[10px] font-medium tracking-[0.04em] text-ink-faint"
       >
         시리즈 · {postCount}편
       </span>
     </div>
-    <h2
-      class="text-ink mb-2 text-[18px] font-bold leading-[1.4] tracking-[-0.025em] [text-wrap:pretty]"
-    >
+    <h2 class="mb-2 break-keep text-[18px] font-bold leading-[1.4] tracking-[-0.025em] text-ink">
       {seriesName}
     </h2>
     {
       series.data.description && (
-        <p class="text-ink-muted mb-3.5 text-[13px] leading-[1.7] [text-wrap:pretty]">
+        <p class="mb-3.5 break-all text-[13px] leading-[1.7] text-ink-muted">
           {series.data.description}
         </p>
       )
@@ -74,7 +72,7 @@ const seriesName = series.data.name.trim();
       tags.length > 0 && (
         <div class="mb-3.5 flex flex-wrap gap-[5px]">
           {tags.map((tag) => (
-            <span class="bg-tag-bg text-tag-text inline-block whitespace-nowrap rounded px-2 py-0.5 text-[11px] font-medium tracking-[0.01em]">
+            <span class="inline-block whitespace-nowrap rounded bg-tag-bg px-2 py-0.5 text-[11px] font-medium tracking-[0.01em] text-tag-text">
               #{tag}
             </span>
           ))}
@@ -85,38 +83,38 @@ const seriesName = series.data.name.trim();
       {
         latestDate && (
           <>
-            <span class="text-ink-faint text-[11.5px]">최신 {latestDate}</span>
-            <span class="text-ink-border-strong text-[11.5px]">·</span>
+            <span class="text-[11.5px] text-ink-faint">최신 {latestDate}</span>
+            <span class="text-[11.5px] text-ink-border-strong">·</span>
           </>
         )
       }
-      <span class="text-ink-faint text-[11.5px]">총 {totalReadTimeMinutes}분 읽기</span>
+      <span class="text-[11.5px] text-ink-faint">총 {totalReadTimeMinutes}분 읽기</span>
     </div>
   </button>
 
   <div
     id={`series-body-${series.data.id}`}
-    class="series-body border-ink-border hidden border-t px-[26px] pb-5 pt-1"
+    class="series-body hidden border-t border-ink-border px-[26px] pb-5 pt-1"
   >
     <div class="pt-4">
       {
         posts.map((post, i) => (
           <a
             href={`/blog/${post.id}`}
-            class="series-post-row group/post border-ink-border relative flex items-center gap-3 border-b py-2.5 no-underline last:border-b-0"
+            class="series-post-row group/post relative flex items-center gap-3 border-b border-ink-border py-2.5 no-underline last:border-b-0"
           >
-            <span class="text-ink-faint min-w-[18px] flex-shrink-0 text-right font-mono text-[10px] font-medium">
+            <span class="min-w-[18px] flex-shrink-0 text-right font-mono text-[10px] font-medium text-ink-faint">
               {String(i + 1).padStart(2, '0')}
             </span>
             <div class="min-w-0 flex-1">
-              <p class="text-ink-muted group-hover/post:text-ink group-hover/post:decoration-ink-border-strong truncate text-[13.5px] font-semibold tracking-[-0.01em] underline-offset-[3px] transition-colors duration-150 group-hover/post:underline">
+              <p class="truncate text-[13.5px] font-semibold tracking-[-0.01em] text-ink-muted underline-offset-[3px] transition-colors duration-150 group-hover/post:text-ink group-hover/post:underline group-hover/post:decoration-ink-border-strong">
                 {post.title}
               </p>
             </div>
             <div class="flex flex-shrink-0 items-center gap-1.5">
-              <time class="text-ink-faint whitespace-nowrap text-[11px]">{post.date}</time>
-              <span class="text-ink-border-strong text-[11px]">·</span>
-              <span class="text-ink-faint whitespace-nowrap text-[11px]">{post.readTimeLabel}</span>
+              <time class="whitespace-nowrap text-[11px] text-ink-faint">{post.date}</time>
+              <span class="text-[11px] text-ink-border-strong">·</span>
+              <span class="whitespace-nowrap text-[11px] text-ink-faint">{post.readTimeLabel}</span>
             </div>
           </a>
         ))

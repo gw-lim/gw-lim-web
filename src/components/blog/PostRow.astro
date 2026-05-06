@@ -41,13 +41,13 @@ const tagsAttr = post.data.tags.join(',');
       </div>
     </div>
     <h3
-      class="mb-[5px] text-[15.5px] font-semibold leading-[1.5] tracking-[-0.015em] text-ink underline-offset-[3px] [text-wrap:pretty] group-hover:underline group-hover:decoration-ink-border-strong"
+      class="mb-[5px] break-words text-[15.5px] font-semibold leading-[1.5] tracking-[-0.015em] text-ink underline-offset-[3px] group-hover:underline group-hover:decoration-ink-border-strong"
     >
       <a href={`/blog/${post.id}`} class="after:absolute after:inset-0 after:content-['']">
         {post.data.title}
       </a>
     </h3>
-    <p class="mb-2.5 text-[13px] leading-[1.6] text-ink-muted [text-wrap:pretty]">
+    <p class="mb-2.5 break-all text-[13px] leading-[1.6] text-ink-muted">
       {post.data.description}
     </p>
     <div class="flex items-center gap-2">
