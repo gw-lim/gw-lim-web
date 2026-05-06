@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface CarouselImage {
   src: string;
@@ -15,33 +15,68 @@ export default function ImageCarousel({ images, width, caption }: ImageCarouselP
   const [current, setCurrent] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+
   const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
+  const currentRef = useRef(current);
+  const dragOffsetRef = useRef(0);
+  const isHorizontalSwipe = useRef<boolean | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const prev = () => setCurrent((c) => (c - 1 + images.length) % images.length);
-  const next = () => setCurrent((c) => (c + 1) % images.length);
+  currentRef.current = current;
+
+  // non-passive로 직접 등록해야 preventDefault()가 실제 기기에서 동작함
+  const handleTouchMoveNative = useCallback(
+    (e: TouchEvent) => {
+      const dx = e.touches[0].clientX - touchStartX.current;
+      const dy = e.touches[0].clientY - touchStartY.current;
+
+      if (isHorizontalSwipe.current === null && (Math.abs(dx) > 5 || Math.abs(dy) > 5)) {
+        isHorizontalSwipe.current = Math.abs(dx) > Math.abs(dy);
+      }
+
+      if (!isHorizontalSwipe.current) return;
+
+      e.preventDefault();
+
+      const cur = currentRef.current;
+      const atStart = cur === 0 && dx > 0;
+      const atEnd = cur === images.length - 1 && dx < 0;
+      const offset = atStart || atEnd ? dx / 3 : dx;
+      dragOffsetRef.current = offset;
+      setDragOffset(offset);
+    },
+    [images.length],
+  );
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    el.addEventListener('touchmove', handleTouchMoveNative, { passive: false });
+    return () => el.removeEventListener('touchmove', handleTouchMoveNative);
+  }, [handleTouchMoveNative]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+    isHorizontalSwipe.current = null;
     setIsDragging(true);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    const diff = e.touches[0].clientX - touchStartX.current;
-    const atStart = current === 0 && diff > 0;
-    const atEnd = current === images.length - 1 && diff < 0;
-    setDragOffset(atStart || atEnd ? diff / 3 : diff);
   };
 
   const handleTouchEnd = () => {
     const containerWidth = containerRef.current?.offsetWidth ?? 300;
-    if (dragOffset < -(containerWidth * 0.3)) {
-      next();
-    } else if (dragOffset > containerWidth * 0.3) {
-      prev();
+    const offset = dragOffsetRef.current;
+
+    if (offset < -(containerWidth * 0.3)) {
+      setCurrent((c) => Math.min(c + 1, images.length - 1));
+    } else if (offset > containerWidth * 0.3) {
+      setCurrent((c) => Math.max(c - 1, 0));
     }
+
+    dragOffsetRef.current = 0;
     setDragOffset(0);
     setIsDragging(false);
+    isHorizontalSwipe.current = null;
   };
 
   return (
@@ -53,7 +88,6 @@ export default function ImageCarousel({ images, width, caption }: ImageCarouselP
         ref={containerRef}
         className="group relative overflow-hidden rounded-lg bg-[#f4f4f4]"
         onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
         <div
@@ -71,34 +105,22 @@ export default function ImageCarousel({ images, width, caption }: ImageCarouselP
         </div>
 
         <button
-          onClick={prev}
+          onClick={(e) => { e.stopPropagation(); setCurrent((c) => (c - 1 + images.length) % images.length); }}
           aria-label="이전 이미지"
           className="absolute left-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M10 3L5 8L10 13"
-              stroke="white"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
+            <path d="M10 3L5 8L10 13" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
 
         <button
-          onClick={next}
+          onClick={(e) => { e.stopPropagation(); setCurrent((c) => (c + 1) % images.length); }}
           aria-label="다음 이미지"
           className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M6 3L11 8L6 13"
-              stroke="white"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
+            <path d="M6 3L11 8L6 13" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
       </div>
