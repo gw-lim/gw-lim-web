@@ -67,9 +67,9 @@ export default function ImageCarousel({ images, width, caption }: ImageCarouselP
     const containerWidth = containerRef.current?.offsetWidth ?? 300;
     const offset = dragOffsetRef.current;
 
-    if (offset < -(containerWidth * 0.3)) {
+    if (offset < -(containerWidth * 0.2)) {
       setCurrent((c) => Math.min(c + 1, images.length - 1));
-    } else if (offset > containerWidth * 0.3) {
+    } else if (offset > containerWidth * 0.2) {
       setCurrent((c) => Math.max(c - 1, 0));
     }
 
@@ -104,25 +104,29 @@ export default function ImageCarousel({ images, width, caption }: ImageCarouselP
           ))}
         </div>
 
-        <button
-          onClick={(e) => { e.stopPropagation(); setCurrent((c) => (c - 1 + images.length) % images.length); }}
-          aria-label="이전 이미지"
-          className="absolute left-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100"
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M10 3L5 8L10 13" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
+        {current > 0 && (
+          <button
+            onClick={(e) => { e.stopPropagation(); setCurrent((c) => Math.max(c - 1, 0)); }}
+            aria-label="이전 이미지"
+            className="absolute left-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M10 3L5 8L10 13" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        )}
 
-        <button
-          onClick={(e) => { e.stopPropagation(); setCurrent((c) => (c + 1) % images.length); }}
-          aria-label="다음 이미지"
-          className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100"
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M6 3L11 8L6 13" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
+        {current < images.length - 1 && (
+          <button
+            onClick={(e) => { e.stopPropagation(); setCurrent((c) => Math.min(c + 1, images.length - 1)); }}
+            aria-label="다음 이미지"
+            className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M6 3L11 8L6 13" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        )}
       </div>
 
       <div className="mt-2.5 flex gap-1.5">
