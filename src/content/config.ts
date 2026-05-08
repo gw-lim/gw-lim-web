@@ -31,11 +31,20 @@ const careerSchema = z.object({
   organizationName: z.string(),
   startedAt: z.string(),
   endedAt: z.string().nullable(),
+  stack: z.array(z.string()).default([]),
   body: z.array(
     z.object({
       heading: z.string(),
       description: z.string().nullable(),
       lists: z.array(z.string()),
+      links: z
+        .array(
+          z.object({
+            label: z.string(),
+            href: z.string(),
+          }),
+        )
+        .default([]),
     }),
   ),
 });
