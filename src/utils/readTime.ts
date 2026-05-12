@@ -1,4 +1,4 @@
-const WORDS_PER_MINUTE = 300;
+const WORDS_PER_MINUTE = 550;
 
 export const calcReadTime = (body: string | undefined): string => {
   const text = body ?? '';
