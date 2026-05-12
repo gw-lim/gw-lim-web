@@ -1,0 +1,48 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  item: CollectionEntry<'languages'>;
+}
+
+const { item } = Astro.props;
+const { name, proficiency, note } = item.data;
+---
+
+<div class="lang-card">
+  <p class="lang-proficiency">{proficiency}</p>
+  <h3 class="lang-name">{name}</h3>
+  {note && <p class="lang-note break-keep">{note}</p>}
+</div>
+
+<style>
+  .lang-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 1rem 1.25rem;
+    background: #ffffff;
+  }
+
+  .lang-proficiency {
+    margin: 0;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: rgba(45, 45, 45, 0.6);
+  }
+
+  .lang-name {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #1d1d1f;
+  }
+
+  .lang-note {
+    margin: 0.125rem 0 0;
+    font-size: 0.7rem;
+    color: rgba(45, 45, 45, 0.6);
+  }
+</style>

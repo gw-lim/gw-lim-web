@@ -85,6 +85,16 @@ const certifications = defineCollection({
   }),
 });
 
+const languages = defineCollection({
+  loader: file('./src/content/languages/languages.json'),
+  schema: z.object({
+    id: z.number(),
+    name: z.string(),
+    proficiency: z.string(),
+    note: z.string().nullable().optional(),
+  }),
+});
+
 export const collections = {
   posts,
   series,
@@ -92,4 +102,5 @@ export const collections = {
   activities,
   education,
   certifications,
+  languages,
 };

@@ -5,11 +5,13 @@ import CareerItem from '../../components/about/CareerItem.astro';
 import ActivityItem from '../../components/about/ActivityItem.astro';
 import EducationItem from '../../components/about/EducationItem.astro';
 import CertItem from '../../components/about/CertItem.astro';
+import LanguageItem from '../../components/about/LanguageItem.astro';
 
 const careers = await getCollection('careers');
 const activities = await getCollection('activities');
 const education = await getCollection('education');
 const certifications = await getCollection('certifications');
+const languages = await getCollection('languages');
 
 const sortById = <T extends { data: { id: number } }>(items: T[]) =>
   [...items].sort((a, b) => b.data.id - a.data.id);
@@ -61,7 +63,7 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
             </div>
             <div class="contact-row">
               <span class="contact-label">Education</span>
-              <span class="contact-value">고려대학교 서울캠퍼스</span>
+              <span class="contact-value">고려대학교 컴퓨터학과</span>
             </div>
             <div class="contact-row">
               <span class="contact-label">GitHub</span>
@@ -146,6 +148,21 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
             <div class="cert-grid">
               {sortById(certifications).map((item) => (
                 <CertItem item={item} />
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      {
+        languages.length > 0 && (
+          <section class="about-section">
+            <div class="section-head">
+              <h2>Languages</h2>
+            </div>
+            <div class="cert-grid">
+              {sortById(languages).map((item) => (
+                <LanguageItem item={item} />
               ))}
             </div>
           </section>
@@ -507,6 +524,12 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
     .about-section-body > *,
     .cert-grid > * {
       break-inside: avoid;
+    }
+
+    .cert-grid {
+      width: calc(100% - 4mm);
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 </style>

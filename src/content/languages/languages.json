@@ -1,0 +1,20 @@
+[
+  {
+    "id": 3,
+    "name": "한국어",
+    "proficiency": "원어민",
+    "note": null
+  },
+  {
+    "id": 2,
+    "name": "English (영어)",
+    "proficiency": "고급",
+    "note": "TOEFL 114 (2020년 취득) / SAT 1480 (2019년 취득) / 국제학교 8년 재학"
+  },
+  {
+    "id": 1,
+    "name": "中文 (중국어)",
+    "proficiency": "중급",
+    "note": "HSK 5급 (2019년 취득) / 중국 9년 거주"
+  }
+]
