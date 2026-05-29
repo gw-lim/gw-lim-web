@@ -28,19 +28,25 @@ const series = defineCollection({
 const careerSchema = z.object({
   id: z.number(),
   role: z.string(),
+  roleEn: z.string().optional(),
   organizationName: z.string(),
+  organizationNameEn: z.string().optional(),
   startedAt: z.string(),
   endedAt: z.string().nullable(),
   stack: z.array(z.string()).default([]),
   body: z.array(
     z.object({
       heading: z.string(),
+      headingEn: z.string().optional(),
       description: z.string().nullable(),
+      descriptionEn: z.string().nullable().optional(),
       lists: z.array(z.string()),
+      listsEn: z.array(z.string()).optional(),
       links: z
         .array(
           z.object({
             label: z.string(),
+            labelEn: z.string().optional(),
             href: z.string(),
           }),
         )
@@ -64,13 +70,18 @@ const education = defineCollection({
   schema: z.object({
     id: z.number(),
     school: z.string(),
+    schoolEn: z.string().optional(),
     major: z.string(),
+    majorEn: z.string().optional(),
     degree: z.string(),
+    degreeEn: z.string().optional(),
     startedAt: z.string(),
     endedAt: z.string().nullable(),
     gpa: z.string().optional(),
     narrative: z.string().optional(),
+    narrativeEn: z.string().optional(),
     achievements: z.array(z.string()).default([]),
+    achievementsEn: z.array(z.string()).optional(),
   }),
 });
 
@@ -79,7 +90,9 @@ const certifications = defineCollection({
   schema: z.object({
     id: z.number(),
     name: z.string(),
+    nameEn: z.string().optional(),
     issuer: z.string(),
+    issuerEn: z.string().optional(),
     issuedAt: z.string(),
     expiresAt: z.string().nullable(),
   }),
@@ -90,8 +103,11 @@ const languages = defineCollection({
   schema: z.object({
     id: z.number(),
     name: z.string(),
+    nameEn: z.string().optional(),
     proficiency: z.string(),
+    proficiencyEn: z.string().optional(),
     note: z.string().nullable().optional(),
+    noteEn: z.string().nullable().optional(),
   }),
 });
 

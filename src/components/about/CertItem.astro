@@ -6,12 +6,16 @@ interface Props {
 }
 
 const { item } = Astro.props;
-const { name, issuer, issuedAt } = item.data;
+const { name, nameEn, issuer, issuerEn, issuedAt } = item.data;
 ---
 
 <div class="cert-card">
-  <p class="cert-org">{issuer}</p>
-  <h3 class="cert-name">{name}</h3>
+  <p class="cert-org">
+    <span data-lang="ko">{issuer}</span><span data-lang="en">{issuerEn ?? issuer}</span>
+  </p>
+  <h3 class="cert-name">
+    <span data-lang="ko">{name}</span><span data-lang="en">{nameEn ?? name}</span>
+  </h3>
   <p class="cert-date">Issued {issuedAt}</p>
 </div>
 
@@ -20,8 +24,6 @@ const { name, issuer, issuedAt } = item.data;
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
-    padding: 1rem 1.25rem;
-    background: #ffffff;
   }
 
   .cert-org {

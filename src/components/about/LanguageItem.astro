@@ -6,13 +6,27 @@ interface Props {
 }
 
 const { item } = Astro.props;
-const { name, proficiency, note } = item.data;
+const { name, nameEn, proficiency, proficiencyEn, note, noteEn } = item.data;
+const noteEnResolved = noteEn ?? note;
 ---
 
 <div class="lang-card">
-  <p class="lang-proficiency">{proficiency}</p>
-  <h3 class="lang-name">{name}</h3>
-  {note && <p class="lang-note break-keep">{note}</p>}
+  <p class="lang-proficiency">
+    <span data-lang="ko">{proficiency}</span><span data-lang="en"
+      >{proficiencyEn ?? proficiency}</span
+    >
+  </p>
+  <h3 class="lang-name">
+    <span data-lang="ko">{name}</span><span data-lang="en">{nameEn ?? name}</span>
+  </h3>
+  {
+    (note || noteEnResolved) && (
+      <>
+        {note && <p class="lang-note break-keep" data-lang="ko">{note}</p>}
+        {noteEnResolved && <p class="lang-note break-keep" data-lang="en">{noteEnResolved}</p>}
+      </>
+    )
+  }
 </div>
 
 <style>
@@ -20,8 +34,6 @@ const { name, proficiency, note } = item.data;
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
-    padding: 1rem 1.25rem;
-    background: #ffffff;
   }
 
   .lang-proficiency {

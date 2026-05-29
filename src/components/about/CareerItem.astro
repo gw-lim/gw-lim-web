@@ -6,19 +6,37 @@ interface Props {
 }
 
 const { item } = Astro.props;
-const { role, organizationName, startedAt, endedAt, stack, body } = item.data;
+const {
+  role,
+  roleEn,
+  organizationName,
+  organizationNameEn,
+  startedAt,
+  endedAt,
+  stack,
+  body,
+} = item.data;
 const period = endedAt ? `${startedAt} – ${endedAt}` : `${startedAt} – Present`;
+const periodEn = endedAt ? `${startedAt} – ${endedAt}` : `${startedAt} – Present`;
 ---
 
 <div class="entry">
   <div class="entry-grid">
     <div class="entry-meta">
-      <p class="entry-org">{organizationName}</p>
-      <p class="entry-role">{role}</p>
-      <p class="entry-period">{period}</p>
+      <p class="entry-org">
+        <span data-lang="ko">{organizationName}</span><span data-lang="en"
+          >{organizationNameEn ?? organizationName}</span
+        >
+      </p>
+      <p class="entry-role">
+        <span data-lang="ko">{role}</span><span data-lang="en">{roleEn ?? role}</span>
+      </p>
+      <p class="entry-period">
+        <span data-lang="ko">{period}</span><span data-lang="en">{periodEn}</span>
+      </p>
       {
         stack.length > 0 && (
-          <ul class="entry-stack" aria-label="기술 스택">
+          <ul class="entry-stack" aria-label="Tech Stack">
             {stack.map((tech) => (
               <li class="entry-stack-item">{tech}</li>
             ))}
@@ -30,17 +48,32 @@ const period = endedAt ? `${startedAt} – ${endedAt}` : `${startedAt} – Prese
       {
         body.map((section) => (
           <div class="proj">
-            <h3 class="proj-title">{section.heading}</h3>
-            {section.description && <p class="proj-desc">{section.description}</p>}
+            <h3 class="proj-title">
+              <span data-lang="ko">{section.heading}</span>
+              <span data-lang="en">{section.headingEn ?? section.heading}</span>
+            </h3>
+            {section.description && (
+              <p class="proj-desc">
+                <span data-lang="ko">{section.description}</span>
+                <span data-lang="en">{section.descriptionEn ?? section.description}</span>
+              </p>
+            )}
             {section.lists.length > 0 && (
-              <ul class="proj-list">
-                {section.lists.map((line) => (
-                  <li>{line}</li>
-                ))}
-              </ul>
+              <>
+                <ul class="proj-list" data-lang="ko">
+                  {section.lists.map((line) => (
+                    <li>{line}</li>
+                  ))}
+                </ul>
+                <ul class="proj-list" data-lang="en">
+                  {(section.listsEn ?? section.lists).map((line) => (
+                    <li>{line}</li>
+                  ))}
+                </ul>
+              </>
             )}
             {section.links.length > 0 && (
-              <ul class="proj-links" aria-label="관련 글">
+              <ul class="proj-links" aria-label="Related posts">
                 {section.links.map((link) => (
                   <li>
                     <a class="proj-link" href={link.href}>
@@ -59,7 +92,8 @@ const period = endedAt ? `${startedAt} – ${endedAt}` : `${startedAt} – Prese
                         <path d="M3.5 8.5 8.5 3.5" />
                         <path d="M4 3.5h4.5V8" />
                       </svg>
-                      <span>{link.label}</span>
+                      <span data-lang="ko">{link.label}</span>
+                      <span data-lang="en">{link.labelEn ?? link.label}</span>
                     </a>
                   </li>
                 ))}

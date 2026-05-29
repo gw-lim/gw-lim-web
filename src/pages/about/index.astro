@@ -18,7 +18,15 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
 ---
 
 <BaseLayout title="About" description="Software Engineer gw-lim입니다.">
-  <article class="about-article">
+  <article class="about-article" data-active-lang="ko">
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button type="button" class="lang-switch-btn" data-lang-target="ko" aria-pressed="true"
+        >KO</button
+      >
+      <button type="button" class="lang-switch-btn" data-lang-target="en" aria-pressed="false"
+        >EN</button
+      >
+    </div>
     <!-- <button type="button" class="pdf-button" data-pdf-save aria-label="이 페이지를 PDF로 저장">
       <svg
         width="14"
@@ -42,7 +50,10 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
         <div class="about-header-info">
           <div class="name-block">
             <h1 class="about-name">gw-lim</h1>
-            <span class="about-korean">임건우</span>
+            <span class="about-korean">
+              <span data-lang="ko">임건우</span>
+              <span data-lang="en">Geon Woo Lim</span>
+            </span>
           </div>
           <p class="about-role">Software Engineer</p>
 
@@ -63,7 +74,10 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
             </div>
             <div class="contact-row">
               <span class="contact-label">Education</span>
-              <span class="contact-value">고려대학교 컴퓨터학과</span>
+              <span class="contact-value">
+                <span data-lang="ko">고려대학교 컴퓨터학과</span>
+                <span data-lang="en">Korea University, Computer Science</span>
+              </span>
             </div>
             <div class="contact-row">
               <span class="contact-label">GitHub</span>
@@ -85,13 +99,21 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
         </div>
       </header>
 
-      <p class="about-summary">
+      <p class="about-summary" data-lang="ko">
         저는 소프트웨어 엔지니어 임건우입니다. 스타트업의 <strong>초기 창업 멤버</strong>로 합류하여
         백엔드부터 웹·앱·어드민까지 서비스 전 영역을 구축했고, <strong
           >6만+ 유저와 10억+ 원의 매출</strong
-        >을 올리는데 기여했습니다. 운영 중인 핵심 도메인을 무중단으로 점진 분리하고 3계층 테스트
-        인프라를 구축하며,
-        <strong>비즈니스 가치와 코드 품질</strong>을 함께 끌어올리는 일에 주력하고 있습니다.
+        >을 올리는데 기여했습니다. <strong>국제학교 8년, 해외 거주 13년</strong>의 경험을 바탕으로
+        다양한 문화권의 동료들과 영어로 자연스럽게 협업하며, 글로벌한 시야로 문제를 정의하고
+        풀어가는 데 강점이 있습니다.
+      </p>
+      <p class="about-summary" data-lang="en">
+        I'm software engineer, Geon Woo Lim. As an <strong>early founding member</strong> of a startup,
+        I built the entire service stack — from backend to web, mobile, and admin — and helped grow it
+        to <strong>60K+ users and $1M+ in revenue</strong>. With <strong
+          >8 years at international schools and 13 years living abroad</strong
+        >, I collaborate naturally in English with colleagues from diverse cultural backgrounds,
+        bringing a global perspective to defining and solving problems.
       </p>
 
       {
@@ -140,21 +162,6 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
       }
 
       {
-        certifications.length > 0 && (
-          <section class="about-section">
-            <div class="section-head">
-              <h2>Certifications</h2>
-            </div>
-            <div class="cert-grid">
-              {sortById(certifications).map((item) => (
-                <CertItem item={item} />
-              ))}
-            </div>
-          </section>
-        )
-      }
-
-      {
         languages.length > 0 && (
           <section class="about-section">
             <div class="section-head">
@@ -168,12 +175,57 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
           </section>
         )
       }
+
+      {
+        certifications.length > 0 && (
+          <section class="about-section">
+            <div class="section-head">
+              <h2>Certifications</h2>
+            </div>
+            <div class="cert-grid">
+              {sortById(certifications).map((item) => (
+                <CertItem item={item} />
+              ))}
+            </div>
+          </section>
+        )
+      }
     </div>
   </article>
 </BaseLayout>
 
 <script>
   document.querySelector('[data-pdf-save]')?.addEventListener('click', () => window.print());
+
+  const article = document.querySelector<HTMLElement>('.about-article');
+  if (article) {
+    const STORAGE_KEY = 'about-lang';
+    const buttons = article.querySelectorAll<HTMLButtonElement>('[data-lang-target]');
+
+    const applyLang = (lang: 'ko' | 'en') => {
+      article.setAttribute('data-active-lang', lang);
+      buttons.forEach((btn) => {
+        const isActive = btn.dataset.langTarget === lang;
+        btn.setAttribute('aria-pressed', String(isActive));
+        btn.classList.toggle('is-active', isActive);
+      });
+    };
+
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === 'ko' || saved === 'en') {
+      applyLang(saved);
+    } else {
+      applyLang('ko');
+    }
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.langTarget as 'ko' | 'en';
+        applyLang(lang);
+        localStorage.setItem(STORAGE_KEY, lang);
+      });
+    });
+  }
 </script>
 
 <style is:global>
@@ -227,6 +279,61 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
       system-ui,
       -apple-system,
       sans-serif;
+  }
+
+  /* ─── LANGUAGE TOGGLE ─── */
+  .about-article[data-active-lang='ko'] :global([data-lang='en']) {
+    display: none !important;
+  }
+
+  .about-article[data-active-lang='en'] :global([data-lang='ko']) {
+    display: none !important;
+  }
+
+  .lang-switch {
+    position: fixed;
+    top: 4.5rem;
+    right: 1.5rem;
+    z-index: 60;
+    display: inline-flex;
+    background: #ffffff;
+    border: 1px solid #1d1d1f;
+    border-radius: 999px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  }
+
+  .lang-switch-btn {
+    padding: 0.4rem 0.85rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #1d1d1f;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .lang-switch-btn + .lang-switch-btn {
+    border-left: 1px solid rgba(29, 29, 31, 0.2);
+  }
+
+  .lang-switch-btn:hover {
+    background: rgba(29, 29, 31, 0.06);
+  }
+
+  .lang-switch-btn.is-active {
+    background: #1d1d1f;
+    color: #ffffff;
+  }
+
+  .lang-switch-btn:focus-visible {
+    outline: 2px solid #1d1d1f;
+    outline-offset: 2px;
   }
 
   /* ─── PDF BUTTON ─── */
@@ -433,11 +540,7 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
   .cert-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1px;
-    background: var(--hr);
-    border: 1px solid var(--hr);
-    border-radius: 6px;
-    overflow: hidden;
+    gap: 1.25rem 2rem;
   }
 
   @media (min-width: 640px) {
@@ -448,7 +551,8 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
 
   /* ─── PRINT ─── */
   @media print {
-    .pdf-button {
+    .pdf-button,
+    .lang-switch {
       display: none !important;
     }
 
@@ -527,9 +631,7 @@ const sortById = <T extends { data: { id: number } }>(items: T[]) =>
     }
 
     .cert-grid {
-      width: calc(100% - 4mm);
-      margin-left: auto;
-      margin-right: auto;
+      width: 100%;
     }
   }
 </style>

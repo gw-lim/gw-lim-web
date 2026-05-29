@@ -6,7 +6,21 @@ interface Props {
 }
 
 const { item } = Astro.props;
-const { school, major, degree, startedAt, endedAt, gpa, narrative, achievements } = item.data;
+const {
+  school,
+  schoolEn,
+  major,
+  majorEn,
+  degree,
+  degreeEn,
+  startedAt,
+  endedAt,
+  gpa,
+  narrative,
+  narrativeEn,
+  achievements,
+  achievementsEn,
+} = item.data;
 const period = endedAt ? `${startedAt} – ${endedAt}` : `${startedAt} – Present`;
 
 const escapeHtml = (s: string) =>
@@ -14,28 +28,59 @@ const escapeHtml = (s: string) =>
 
 const renderNarrative = (s: string) =>
   escapeHtml(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+const achievementsEnList = achievementsEn ?? achievements;
 ---
 
 <div class="edu-entry">
   <div class="edu-grid">
     <div class="edu-meta">
-      <h3 class="edu-school">{school}</h3>
+      <h3 class="edu-school">
+        <span data-lang="ko">{school}</span>
+        <span data-lang="en">{schoolEn ?? school}</span>
+      </h3>
       <div class="edu-degree-row">
-        <span class="edu-degree">{degree}</span>
+        <span class="edu-degree">
+          <span data-lang="ko">{degree}</span><span data-lang="en">{degreeEn ?? degree}</span>
+        </span>
         <span class="edu-sep">|</span>
-        <span>{major}</span>
+        <span>
+          <span data-lang="ko">{major}</span><span data-lang="en">{majorEn ?? major}</span>
+        </span>
       </div>
       {gpa && <p class="edu-gpa">{gpa}</p>}
       <p class="edu-period">{period}</p>
     </div>
     <div class="edu-body">
-      {narrative && <p class="edu-narrative" set:html={renderNarrative(narrative)} />}
+      {
+        narrative && (
+          <>
+            <p class="edu-narrative" data-lang="ko" set:html={renderNarrative(narrative)} />
+            <p
+              class="edu-narrative"
+              data-lang="en"
+              set:html={renderNarrative(narrativeEn ?? narrative)}
+            />
+          </>
+        )
+      }
       {
         achievements.length > 0 && (
           <div>
-            <p class="edu-achievements-title">주요 활동 및 성과</p>
-            <ul class="edu-achievements-list">
+            <p class="edu-achievements-title">
+              <span data-lang="ko">주요 활동 및 성과</span>
+              <span data-lang="en">Key Activities & Achievements</span>
+            </p>
+            <ul class="edu-achievements-list" data-lang="ko">
               {achievements.map((line) => (
+                <li>
+                  <span class="edu-bullet">•</span>
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ul>
+            <ul class="edu-achievements-list" data-lang="en">
+              {achievementsEnList.map((line) => (
                 <li>
                   <span class="edu-bullet">•</span>
                   <span>{line}</span>
@@ -91,7 +136,7 @@ const renderNarrative = (s: string) =>
 
   .edu-degree-row {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.35rem;
     font-size: 0.75rem;
     color: #2d2d2d;
@@ -102,6 +147,8 @@ const renderNarrative = (s: string) =>
   }
 
   .edu-sep {
+    flex-shrink: 0;
+    line-height: 1.4;
     color: rgba(45, 45, 45, 0.6);
     font-size: 0.65rem;
   }

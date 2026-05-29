@@ -6,29 +6,50 @@ interface Props {
 }
 
 const { item } = Astro.props;
-const { role, organizationName, startedAt, endedAt, body } = item.data;
+const { role, roleEn, organizationName, organizationNameEn, startedAt, endedAt, body } = item.data;
 const period = endedAt ? `${startedAt} – ${endedAt}` : startedAt;
 ---
 
 <div class="entry">
   <div class="entry-grid">
     <div class="entry-meta">
-      <p class="entry-org">{organizationName}</p>
-      <p class="entry-role">{role}</p>
+      <p class="entry-org">
+        <span data-lang="ko">{organizationName}</span><span data-lang="en"
+          >{organizationNameEn ?? organizationName}</span
+        >
+      </p>
+      <p class="entry-role">
+        <span data-lang="ko">{role}</span><span data-lang="en">{roleEn ?? role}</span>
+      </p>
       <p class="entry-period">{period}</p>
     </div>
     <div class="entry-body">
       {
         body.map((section) => (
           <div class="proj">
-            <h3 class="proj-title">{section.heading}</h3>
-            {section.description && <p class="proj-desc">{section.description}</p>}
+            <h3 class="proj-title">
+              <span data-lang="ko">{section.heading}</span>
+              <span data-lang="en">{section.headingEn ?? section.heading}</span>
+            </h3>
+            {section.description && (
+              <p class="proj-desc">
+                <span data-lang="ko">{section.description}</span>
+                <span data-lang="en">{section.descriptionEn ?? section.description}</span>
+              </p>
+            )}
             {section.lists.length > 0 && (
-              <ul class="proj-list">
-                {section.lists.map((line) => (
-                  <li>{line}</li>
-                ))}
-              </ul>
+              <>
+                <ul class="proj-list" data-lang="ko">
+                  {section.lists.map((line) => (
+                    <li>{line}</li>
+                  ))}
+                </ul>
+                <ul class="proj-list" data-lang="en">
+                  {(section.listsEn ?? section.lists).map((line) => (
+                    <li>{line}</li>
+                  ))}
+                </ul>
+              </>
             )}
           </div>
         ))

@@ -2,35 +2,53 @@
   {
     "id": 3,
     "school": "고려대학교 서울캠퍼스",
+    "schoolEn": "Korea University, Seoul Campus",
     "major": "컴퓨터학과",
+    "majorEn": "Computer Science",
     "degree": "학사(예정)",
+    "degreeEn": "B.S. (Expected)",
     "startedAt": "Mar 2021",
     "endedAt": null,
     "gpa": "4 / 4.5",
     "narrative": "컴퓨터과학 이론을 기반으로 시스템·알고리즘·소프트웨어 설계 전반을 학습하며, 동아리·창업 경진대회·산학 캡스톤 등 **학습한 내용을 실제 프로덕트로 검증**하는 활동에 꾸준히 참여해왔습니다.",
+    "narrativeEn": "Studied systems, algorithms, and software design grounded in computer science theory, and consistently participated in clubs, startup competitions, and industry-academia capstones — **validating coursework as real products**.",
     "achievements": [
       "창업 경진대회 STARTUP EXPRESS 츄츄기업가상 수상 (핸디버스)",
       "산학 캡스톤 디자인 프로젝트 우수상 수상"
+    ],
+    "achievementsEn": [
+      "Won the ChuChu Entrepreneur Award at the STARTUP EXPRESS startup competition (HandyBus)",
+      "Won the Excellence Award in the industry-academia capstone design project"
     ]
   },
   {
     "id": 2,
     "school": "University of California, Davis",
+    "schoolEn": "University of California, Davis",
     "major": "Computer Science",
+    "majorEn": "Computer Science",
     "degree": "교환학생",
+    "degreeEn": "Exchange Student",
     "startedAt": "Jan 2023",
     "endedAt": "Jul 2023",
     "narrative": "학부 과정 중 한 학기 교환 학생으로 참여하여 다문화 캠퍼스 환경에서 다양한 배경의 학생들과 함께 팀 프로젝트를 수행하며 글로벌 소통 능력을 다졌습니다.",
-    "achievements": []
+    "narrativeEn": "Spent one semester as an exchange student during undergraduate studies, strengthening global communication skills by working on team projects with students from diverse backgrounds in a multicultural campus environment.",
+    "achievements": [],
+    "achievementsEn": []
   },
   {
     "id": 1,
     "school": "코드잇",
+    "schoolEn": "Codeit",
     "major": "프론트엔드 스프린트 1기",
+    "majorEn": "Frontend Sprint, 1st Cohort",
     "degree": "수료",
+    "degreeEn": "Completed",
     "startedAt": "Sep 2023",
     "endedAt": "Mar 2024",
     "narrative": "체계적인 코드 리뷰 문화와 페어 프로그래밍 환경을 통해 협업 워크플로우를 익혔습니다.",
-    "achievements": []
+    "narrativeEn": "Learned collaborative workflows through a structured code-review culture and pair-programming environment.",
+    "achievements": [],
+    "achievementsEn": []
   }
 ]
