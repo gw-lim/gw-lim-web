@@ -7,7 +7,7 @@
     "organizationNameEn": "Daangn",
     "startedAt": "Jul 2026",
     "endedAt": null,
-    "stack": ["Kotlin", "Spring Boot", "RDBMS", "gRPC", "Kafka"],
+    "stack": ["Kotlin", "Spring Boot", "RDBMS", "Kafka"],
     "body": [
       {
         "heading": "나의당근 탭을 구성하는 SDUI 서버 설계 및 개발",
@@ -25,17 +25,17 @@
         "links": []
       },
       {
-        "heading": "나의당근 탭 피처 개발 (최근 본 글, 다가오는 일정)",
+        "heading": "나의당근 탭 피처 개발",
         "headingEn": "Feature development for the My Daangn tab (Recently Viewed, Upcoming Schedule)",
         "description": "이벤트 기반 아키텍처로 나의당근 탭의 개인화 섹션 개발",
         "descriptionEn": "Developed personalized sections of the My Daangn tab using an event-driven architecture",
         "lists": [
           "내부 이벤트 수집 플랫폼에서 사용자 조회 이벤트를 수신하고 gRPC로 글 상세 정보를 조회하여 최근 본 글 섹션 구현",
-          "Kafka에서 약속 이벤트를 수신하여 gRPC로 상세 조회 후 스냅샷을 테이블에 저장, read 시점에 별도 조회 없이 즉시 응답하는 다가오는 일정 섹션 구현"
+          "Kafka에서 약속 이벤트를 수신하여 gRPC로 상세 조회 후 스냅샷을 테이블에 저장, read 시점에 별도 조회 없이 즉시 응답하는 개인화 섹션 구현"
         ],
         "listsEn": [
           "Received user view events from an internal event collection platform and fetched post details via gRPC to implement the Recently Viewed Posts section",
-          "Received appointment events from Kafka, fetched details via gRPC, and persisted snapshots to a table — enabling instant responses at read time without additional lookups (Upcoming Schedule)"
+          "Received appointment events from Kafka, fetched details via gRPC, and persisted snapshots to a table — enabling instant responses at read time without additional lookups"
         ],
         "links": []
       }
