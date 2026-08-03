@@ -1,12 +1,54 @@
 [
   {
+    "id": 3,
+    "role": "Software Engineer, Backend (Intern)",
+    "roleEn": "Software Engineer, Backend (Intern)",
+    "organizationName": "당근",
+    "organizationNameEn": "Daangn",
+    "startedAt": "Jul 2026",
+    "endedAt": null,
+    "stack": ["Kotlin", "Spring Boot", "RDBMS", "gRPC", "Kafka"],
+    "body": [
+      {
+        "heading": "나의당근 탭을 구성하는 SDUI 서버 설계 및 개발",
+        "headingEn": "Designed and developed the SDUI server powering the My Daangn tab",
+        "description": "나의당근 탭의 UI 구성을 서버에서 동적으로 제어하는 SDUI 서버를 설계 및 개발하고, 타 서비스 의존 구조에서 팀 자체 의존으로 마이그레이션 진행 중",
+        "descriptionEn": "Designed and developed an SDUI server that dynamically controls the UI layout of the My Daangn tab from the server side; currently migrating from cross-service dependencies to team-owned ownership",
+        "lists": [
+          "나의당근 탭의 컴포넌트 구성을 서버에서 동적으로 제어하는 SDUI 서버 설계 및 개발",
+          "기존 타 서비스 의존 SDUI 구조를 나의당근 팀 자체 의존으로 마이그레이션 진행 중"
+        ],
+        "listsEn": [
+          "Designed and developed an SDUI server that dynamically controls the component layout of the My Daangn tab from the server side",
+          "Migrating the existing cross-service-dependent SDUI structure to team-owned ownership (in progress)"
+        ],
+        "links": []
+      },
+      {
+        "heading": "나의당근 탭 피처 개발 (최근 본 글, 다가오는 일정)",
+        "headingEn": "Feature development for the My Daangn tab (Recently Viewed, Upcoming Schedule)",
+        "description": "이벤트 기반 아키텍처로 나의당근 탭의 개인화 섹션 개발",
+        "descriptionEn": "Developed personalized sections of the My Daangn tab using an event-driven architecture",
+        "lists": [
+          "내부 이벤트 수집 플랫폼에서 사용자 조회 이벤트를 수신하고 gRPC로 글 상세 정보를 조회하여 최근 본 글 섹션 구현",
+          "Kafka에서 약속 이벤트를 수신하여 gRPC로 상세 조회 후 스냅샷을 테이블에 저장, read 시점에 별도 조회 없이 즉시 응답하는 다가오는 일정 섹션 구현"
+        ],
+        "listsEn": [
+          "Received user view events from an internal event collection platform and fetched post details via gRPC to implement the Recently Viewed Posts section",
+          "Received appointment events from Kafka, fetched details via gRPC, and persisted snapshots to a table — enabling instant responses at read time without additional lookups (Upcoming Schedule)"
+        ],
+        "links": []
+      }
+    ]
+  },
+  {
     "id": 2,
     "role": "Software Engineer",
     "roleEn": "Software Engineer",
     "organizationName": "STAVE (핸디버스)",
     "organizationNameEn": "STAVE (HandyBus)",
     "startedAt": "Oct 2024",
-    "endedAt": null,
+    "endedAt": "Jun 2026",
     "stack": ["TypeScript", "NestJS", "MySQL", "AWS", "Docker"],
     "body": [
       {
