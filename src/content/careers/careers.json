@@ -7,35 +7,62 @@
     "organizationNameEn": "Daangn",
     "startedAt": "Jul 2026",
     "endedAt": null,
-    "stack": ["Kotlin", "Spring Boot", "RDBMS", "Kafka"],
+    "stack": ["Kotlin", "Spring Boot", "RDBMS", "Kafka", "gRPC", "Redis", "DynamoDB"],
     "body": [
       {
-        "heading": "나의당근 탭을 구성하는 SDUI 서버 설계 및 개발",
-        "headingEn": "Designed and developed the SDUI server powering the My Daangn tab",
-        "description": "나의당근 탭의 UI 구성을 서버에서 동적으로 제어하는 SDUI 서버를 설계 및 개발하고, 타 서비스 의존 구조에서 팀 자체 의존으로 마이그레이션 진행 중",
-        "descriptionEn": "Designed and developed an SDUI server that dynamically controls the UI layout of the My Daangn tab from the server side; currently migrating from cross-service dependencies to team-owned ownership",
+        "heading": "이벤트 기반 개인화 섹션 구축",
+        "description": "Kafka 이벤트를 유저별 스냅샷으로 저장하여, 조회 시점에 외부 호출 없이 응답하는 일정·상태 섹션 개발",
         "lists": [
-          "나의당근 탭의 컴포넌트 구성을 서버에서 동적으로 제어하는 SDUI 서버 설계 및 개발",
-          "기존 타 서비스 의존 SDUI 구조를 나의당근 팀 자체 의존으로 마이그레이션 진행 중"
-        ],
-        "listsEn": [
-          "Designed and developed an SDUI server that dynamically controls the component layout of the My Daangn tab from the server side",
-          "Migrating the existing cross-service-dependent SDUI structure to team-owned ownership (in progress)"
+          "약속 Kafka 이벤트를 수신해 gRPC로 상세를 조회한 뒤 스냅샷으로 저장, 알바·중고거래·부동산·레슨·중고차·예약·공동구매 등 9개 유형을 순차 프로덕션 배포",
+          "도메인별 부가 정보를 facet 구조로 분리하여 신규 유형 추가 시 기존 코드 변경 없이 확장",
+          "외부 서비스가 지연·실패해도 저장된 스냅샷으로 응답하는 fallback으로 안정성 확보"
         ],
         "links": []
       },
       {
-        "heading": "나의당근 탭 피처 개발",
-        "headingEn": "Feature development for the My Daangn tab (Recently Viewed, Upcoming Schedule)",
-        "description": "이벤트 기반 아키텍처로 나의당근 탭의 개인화 섹션 개발",
-        "descriptionEn": "Developed personalized sections of the My Daangn tab using an event-driven architecture",
+        "heading": "SDUI 확장 설계 및 개발",
+        "description": "나의당근 지면 UI 구성을 서버에서 제어하는 SDUI 확장 스키마와 API를 설계하고, 클라이언트가 각 서비스 팀 API를 호출하던 섹션까지 서버 조립 방식으로 전환",
         "lists": [
-          "내부 이벤트 수집 플랫폼에서 사용자 조회 이벤트를 수신하고 gRPC로 글 상세 정보를 조회하여 최근 본 글 섹션 구현",
-          "Kafka에서 약속 이벤트를 수신하여 gRPC로 상세 조회 후 스냅샷을 테이블에 저장, read 시점에 별도 조회 없이 즉시 응답하는 개인화 섹션 구현"
+          "클라이언트가 각 서비스 팀의 API를 호출해 구성하던 섹션까지 서버가 데이터를 모아 조립하도록 SDUI v2로 확장",
+          "매너온도·본인인증·프로필·배너를 gRPC로 연동하여 지면 전체를 서버에서 제어",
+          "Redis 캐시를 Kafka 변경 이벤트로 갱신하여 외부 서비스 호출을 줄이면서 변경사항을 즉시 반영"
         ],
-        "listsEn": [
-          "Received user view events from an internal event collection platform and fetched post details via gRPC to implement the Recently Viewed Posts section",
-          "Received appointment events from Kafka, fetched details via gRPC, and persisted snapshots to a table — enabling instant responses at read time without additional lookups"
+        "links": []
+      },
+      {
+        "heading": "나의당근 탭 구조 설계 및 선생님 탭 출시",
+        "description": "유저에게 나의당근에 탭을 선별 노출하는 구조를 설계하고, 첫 사례로 선생님 프로필 보유 유저 대상 선생님 탭을 프로덕션 배포",
+        "lists": [
+          "선생님 프로필 전량을 백필하고 생성·수정 Kafka 이벤트로 동기화하여, 선생님 프로필을 가진 유저들에게 선생님 탭을 출시",
+          "탭 툴팁의 노출 조건을 Unleash 정책으로 분리해, 배포 없이 노출 대상과 기간을 조정"
+        ],
+        "links": []
+      },
+      {
+        "heading": "유저 이벤트 저장소 설계 및 개발",
+        "description": "유저 행동 이벤트를 수집하기 위한 저장소를 설계하고, 최근 본 글에 적용",
+        "lists": [
+          "예측되는 쓰기 및 읽기 패턴을 바탕으로 DynamoDB 저장소를 설계",
+          "유저의 글 조회 이벤트를 적재하여 최근 본 글의 대상을 단순 중고거래에서 커뮤니티 글까지 넓히며 적용"
+        ],
+        "links": []
+      },
+      {
+        "heading": "팀 슬랙 에이전트 개발",
+        "description": "TypeScript와 Claude Agent SDK, MCP로 팀 맥락을 아는 슬랙 에이전트를 설계하고 운영",
+        "lists": [
+          "MCP 서버의 도구와 작업 절차·도메인 지식을 담은 스킬을 모델이 직접 골라 쓰도록 하네스를 설계",
+          "슬랙 스레드·노션 문서·코드를 매일 비교해 팀 지식 문서를 갱신하고, 답변을 생성할 때 근거로 활용",
+          "팀원들이 슬랙 스레드에서 코드 작업, 배포, 지표 조회, Sentry 에러 원인 분석, 기능 검증, QA 문서 작성을 요청하는 형태로 사용"
+        ],
+        "links": []
+      },
+      {
+        "heading": "프로덕트 밋업 운영 지원",
+        "description": "당근 테크 밋업에서 프로덕트 데이의 일꾼단으로 참여하여 밋업 준비 전반을 지원",
+        "lists": [
+          "발표 장표의 말투를 다듬는 스킬을 만들어 사내 스킬 저장소에 공유, 발표자들의 장표 작성 시간 단축",
+          "밋업 당일에는 현장 세팅과 발표 촬영을 담당하고, 참여자 네트워킹 진행을 지원"
         ],
         "links": []
       }
