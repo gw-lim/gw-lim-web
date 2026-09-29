@@ -11,58 +11,97 @@
     "body": [
       {
         "heading": "이벤트 기반 개인화 섹션 구축",
+        "headingEn": "Built event-driven personalization sections",
         "description": "Kafka 이벤트를 유저별 스냅샷으로 저장하여, 조회 시점에 외부 호출 없이 응답하는 일정·상태 섹션 개발",
+        "descriptionEn": "Developed schedule and status sections that respond without external calls at read time by storing Kafka events as per-user snapshots",
         "lists": [
           "약속 Kafka 이벤트를 수신해 gRPC로 상세를 조회한 뒤 스냅샷으로 저장, 알바·중고거래·부동산·레슨·중고차·예약·공동구매 등 9개 유형을 순차 프로덕션 배포",
           "도메인별 부가 정보를 facet 구조로 분리하여 신규 유형 추가 시 기존 코드 변경 없이 확장",
           "외부 서비스가 지연·실패해도 저장된 스냅샷으로 응답하는 fallback으로 안정성 확보"
         ],
+        "listsEn": [
+          "Consumed appointment Kafka events, fetched details via gRPC, and stored them as snapshots; shipped 9 types to production sequentially — part-time jobs, secondhand, real estate, lessons, used cars, reservations, group buying, and more",
+          "Separated domain-specific attributes into a facet structure, so new types could be added without touching existing code",
+          "Secured stability with a fallback that serves stored snapshots even when external services are slow or fail"
+        ],
         "links": []
       },
       {
         "heading": "SDUI 확장 설계 및 개발",
+        "headingEn": "Designed and built an SDUI extension",
         "description": "나의당근 지면 UI 구성을 서버에서 제어하는 SDUI 확장 스키마와 API를 설계하고, 클라이언트가 각 서비스 팀 API를 호출하던 섹션까지 서버 조립 방식으로 전환",
+        "descriptionEn": "Designed the SDUI extension schema and API that let the server control the UI composition of the My Karrot surface, moving sections the client used to assemble from per-team APIs to server-side assembly",
         "lists": [
           "클라이언트가 각 서비스 팀의 API를 호출해 구성하던 섹션까지 서버가 데이터를 모아 조립하도록 SDUI v2로 확장",
           "매너온도·본인인증·프로필·배너를 gRPC로 연동하여 지면 전체를 서버에서 제어",
           "Redis 캐시를 Kafka 변경 이벤트로 갱신하여 외부 서비스 호출을 줄이면서 변경사항을 즉시 반영"
         ],
+        "listsEn": [
+          "Extended SDUI to v2 so the server gathers and assembles data for sections the client previously built by calling each service team's API",
+          "Integrated manner temperature, identity verification, profile, and banners via gRPC to control the entire surface from the server",
+          "Refreshed the Redis cache from Kafka change events, cutting external service calls while reflecting changes immediately"
+        ],
         "links": []
       },
       {
         "heading": "나의당근 탭 구조 설계 및 선생님 탭 출시",
+        "headingEn": "Designed the My Karrot tab structure and launched the Teacher tab",
         "description": "유저에게 나의당근에 탭을 선별 노출하는 구조를 설계하고, 첫 사례로 선생님 프로필 보유 유저 대상 선생님 탭을 프로덕션 배포",
+        "descriptionEn": "Designed a structure that selectively exposes My Karrot tabs per user, and shipped the Teacher tab to production as the first case, targeting users who hold a teacher profile",
         "lists": [
           "선생님 프로필 전량을 백필하고 생성·수정 Kafka 이벤트로 동기화하여, 선생님 프로필을 가진 유저들에게 선생님 탭을 출시",
           "탭 툴팁의 노출 조건을 Unleash 정책으로 분리해, 배포 없이 노출 대상과 기간을 조정"
+        ],
+        "listsEn": [
+          "Backfilled every teacher profile and kept it in sync through create/update Kafka events, launching the Teacher tab for users holding a teacher profile",
+          "Moved tab tooltip exposure conditions into Unleash policies, allowing the audience and period to be adjusted without a deploy"
         ],
         "links": []
       },
       {
         "heading": "유저 이벤트 저장소 설계 및 개발",
+        "headingEn": "Designed and built a user event store",
         "description": "유저 행동 이벤트를 수집하기 위한 저장소를 설계하고, 최근 본 글에 적용",
+        "descriptionEn": "Designed a store for collecting user behavior events and applied it to the Recently Viewed feature",
         "lists": [
           "예측되는 쓰기 및 읽기 패턴을 바탕으로 DynamoDB 저장소를 설계",
           "유저의 글 조회 이벤트를 적재하여 최근 본 글의 대상을 단순 중고거래에서 커뮤니티 글까지 넓히며 적용"
+        ],
+        "listsEn": [
+          "Designed a DynamoDB store based on projected write and read patterns",
+          "Ingested post-view events to widen Recently Viewed from secondhand listings alone to community posts"
         ],
         "links": []
       },
       {
         "heading": "팀 슬랙 에이전트 개발",
+        "headingEn": "Built a team Slack agent",
         "description": "TypeScript와 Claude Agent SDK, MCP로 팀 맥락을 아는 슬랙 에이전트를 설계하고 운영",
+        "descriptionEn": "Designed and operated a Slack agent that understands team context, using TypeScript, the Claude Agent SDK, and MCP",
         "lists": [
           "MCP 서버의 도구와 작업 절차·도메인 지식을 담은 스킬을 모델이 직접 골라 쓰도록 하네스를 설계",
           "슬랙 스레드·노션 문서·코드를 매일 비교해 팀 지식 문서를 갱신하고, 답변을 생성할 때 근거로 활용",
           "팀원들이 슬랙 스레드에서 코드 작업, 배포, 지표 조회, Sentry 에러 원인 분석, 기능 검증, QA 문서 작성을 요청하는 형태로 사용"
         ],
+        "listsEn": [
+          "Designed a harness where the model itself picks from MCP server tools and skills that carry work procedures and domain knowledge",
+          "Updated the team knowledge document daily by comparing Slack threads, Notion documents, and code, and grounded generated answers in it",
+          "Used by teammates from Slack threads to request code work, deploys, metric lookups, Sentry error root-cause analysis, feature verification, and QA document writing"
+        ],
         "links": []
       },
       {
         "heading": "프로덕트 밋업 운영 지원",
+        "headingEn": "Supported product meetup operations",
         "description": "당근 테크 밋업에서 프로덕트 데이의 일꾼단으로 참여하여 밋업 준비 전반을 지원",
+        "descriptionEn": "Served on the organizing crew for Product Day at the Daangn Tech Meetup, supporting preparation across the board",
         "lists": [
           "발표 장표의 말투를 다듬는 스킬을 만들어 사내 스킬 저장소에 공유, 발표자들의 장표 작성 시간 단축",
           "밋업 당일에는 현장 세팅과 발표 촬영을 담당하고, 참여자 네트워킹 진행을 지원"
+        ],
+        "listsEn": [
+          "Built a skill that refines the tone of presentation slides and shared it in the internal skill repository, cutting speakers' slide-writing time",
+          "Handled on-site setup and talk recording on the day of the meetup, and supported attendee networking"
         ],
         "links": []
       }
